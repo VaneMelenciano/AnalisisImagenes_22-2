@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  *
  * @author Vanessa
  */
-public class testMain {
+public class nombreImagen {
     public static void main(String[] args) {
         Image imagenOriginal = AbrirImagen.openImage();
         JFrameImagen original = new JFrameImagen(imagenOriginal);
