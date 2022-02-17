@@ -72,6 +72,9 @@ public class AbrirImagen{
         
         return bi;
     }
+    public static void saveImage(BufferedImage imagen) throws IOException{
+        File outputfile = new File("nuevaImagen.png");
+        ImageIO.write(imagen, "png", outputfile);
+    }
     
-
 }
