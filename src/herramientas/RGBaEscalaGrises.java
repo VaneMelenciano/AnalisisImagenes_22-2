@@ -3,30 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package main;
+package herramientas;
 
-import gui.JFrameImagen;
-import herramientas.AbrirImagen;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 /**
  *
  * @author Vanessa
  */
-public class escalaGrises {
-    public static void main(String[] args) throws IOException {
-        Image imagenOriginal = AbrirImagen.openImage();
-        JFrameImagen original = new JFrameImagen(imagenOriginal);
-        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagenOriginal);
+public class RGBaEscalaGrises {
+    
+    public static Image convertir(Image imagen){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
         
         //Editar imagen
         int ancho = auxBuffed.getWidth();
         int alto = auxBuffed.getHeight();
         System.out.println(ancho + "   " +alto);
-        //da escala de azul :(
         
         for(int i=0; i<ancho; i++){
             for(int j=0; j<alto; j++){
@@ -37,9 +32,6 @@ public class escalaGrises {
             }
         }
         
-        Image imagenResultante = AbrirImagen.toImage(auxBuffed);
-        JFrameImagen auxResultante = new JFrameImagen(imagenResultante, 1);
-        //AbrirImagen.saveImage(auxBuffed);
-        
+        return AbrirImagen.toImage(auxBuffed); 
     }
 }
