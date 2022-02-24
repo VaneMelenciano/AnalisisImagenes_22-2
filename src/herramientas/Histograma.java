@@ -13,13 +13,38 @@ import java.awt.image.BufferedImage;
  *
  * @author Vanessa
  */
-public class HistogramaColores {
+public class Histograma {
     Image imagen;
-    public HistogramaColores(Image imagen){
+    public Histograma(Image imagen){
         this.imagen = imagen;
-        crear();
     }
-    public void crear(){
+    public static void crear(Image imagen, String tituloVentana){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+    
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        int[] R = new int[256];
+        int[] G = new int[256];
+        int[] B = new int[256];
+        
+        //recorrer cada pixel de la imagen recibida
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){ 
+                 Color c = new Color(auxBuffed.getRGB(i, j)); //color del pixel
+                 R[c.getRed()]++;
+                 G[c.getGreen()]++;
+                 B[c.getBlue()]++;
+            }
+        }
+        Grafica grafica = new Grafica("ejex", "ejeY", "Histograma de colores", tituloVentana);
+        grafica.agregarSerie("Red", R);
+        grafica.agregarSerie("Blue", B);
+        grafica.agregarSerie("Green", G);
+        
+        grafica.crearYmostrarGrafica();
+        
+    }
+    public static void crear(Image imagen){
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
     
         int ancho = auxBuffed.getWidth();

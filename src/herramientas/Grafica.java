@@ -64,8 +64,13 @@ public class Grafica {
     
         this.grafica = ChartFactory.createXYLineChart(titulo, ejeX, ejeY, series); //linea
         //this.grafica = ChartFactory.createScatterPlot(this.titulo, ejeX, ejeX, series); //puntos
-        ChartFrame frame = new ChartFrame(titulo1, grafica);
-        frame.setVisible(true);
+        
+        //ChartFrame frame = new ChartFrame(titulo1, grafica);
+        //frame.setVisible(true);
+        
+        ChartFrame panel = new ChartFrame(titulo1, grafica);
+        panel.pack();
+        panel.setVisible(true);
         
         
     }
