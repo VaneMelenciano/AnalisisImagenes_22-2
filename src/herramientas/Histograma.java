@@ -14,10 +14,6 @@ import java.awt.image.BufferedImage;
  * @author Vanessa
  */
 public class Histograma {
-    Image imagen;
-    public Histograma(Image imagen){
-        this.imagen = imagen;
-    }
     public static void crear(Image imagen, String tituloVentana){
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
     

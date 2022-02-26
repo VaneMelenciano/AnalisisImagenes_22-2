@@ -33,11 +33,12 @@ public class ModificarImagen {
         //Recibe un color, y le suma a cada uno de sus valor el entero recibido, y revisa
 
         int aux1 = c.getRed()+v, aux2 = c.getGreen()+v, aux3 = c.getBlue()+v;
-        aux1 = (aux1>255 ? 255 : aux1); aux1 = (aux1<0 ? 0 : aux1);
-        aux2 = (aux2>255 ? 255 : aux2); aux2 = (aux2<0 ? 0 : aux2);
-        aux3 = (aux3>255 ? 255 : aux3); aux3 = (aux3<0 ? 0 : aux3);
+        aux1 = (aux1>=255 ? 255 : aux1); aux1 = (aux1<0 ? 0 : aux1);
+        aux2 = (aux2>=255 ? 255 : aux2); aux2 = (aux2<0 ? 0 : aux2);
+        aux3 = (aux3>=255 ? 255 : aux3); aux3 = (aux3<0 ? 0 : aux3);
         return new Color(aux1, aux2, aux3); //nuevo color con el primedio en cada canal
     }
+    
     public static Image umbralizacion(Image imagen, int umbral1){
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
         int ancho = auxBuffed.getWidth();
@@ -52,7 +53,7 @@ public class ModificarImagen {
     }
     
     public static Image umbralizacion(Image imagen, int umbral1, int umbral2){
-        if(umbral1<umbral2){
+        if(umbral1<=umbral2){
              BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
         int ancho = auxBuffed.getWidth();
         int alto = auxBuffed.getHeight();
@@ -66,6 +67,7 @@ public class ModificarImagen {
         }
         return imagen;
     }
+    
 
     private static Color verificar2umbrales(Color c, int umbral1, int umbral2) {
         int aux1 = c.getRed(), aux2 = c.getGreen(), aux3 = c.getBlue();
@@ -82,5 +84,25 @@ public class ModificarImagen {
         aux3 = ((aux1>umbral1) ? aux3 : 255);
         return new Color(aux1, aux2, aux3); //nuevo color con el primedio en cada canal
     
+    }
+    
+    public static Image convertirEscalaGrises(Image imagen){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        
+        //Editar imagen
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        System.out.println(ancho + "   " +alto);
+        
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                Color c = new Color(auxBuffed.getRGB(i, j)); //color del pixel
+                int promedio = (c.getBlue()+c.getGreen()+c.getRed())/3; //promedio de los 3 canales
+                Color nuevo = new Color(promedio, promedio, promedio); //nuevo color con el primedio en cada canal
+                auxBuffed.setRGB(i, j, nuevo.getRGB()); //dar el nuevo color en escala de grises, al pixel
+            }
+        }
+        
+        return AbrirImagen.toImage(auxBuffed); 
     }
 }
