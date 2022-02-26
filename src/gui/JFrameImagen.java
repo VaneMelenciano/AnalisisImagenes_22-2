@@ -101,19 +101,18 @@ public class JFrameImagen extends JFrame{
         menu3.setText("Guardar");
         menu2.setText("Histograma");
         
-        item11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                System.out.println("Hola2");
+        item11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 escalaGrisesMouseClicked(evt);
             }
         });
-        item12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        item12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 umbralizacionMouseClicked(evt);
             }
         });
-        item13.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        item13.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 binarizacionMouseClicked(evt);
             }
         });
@@ -224,14 +223,14 @@ public class JFrameImagen extends JFrame{
                 }
             }
         });
-        item11.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
+        item11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
                 escalaGrisesMouseClicked(evt);
             }
         });
-        item12.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                binarizacionMouseClicked(evt);
+        item12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umbralizacionMouseClicked(evt);
             }
         });
         
@@ -287,20 +286,22 @@ public class JFrameImagen extends JFrame{
     private void histogramaMouseClicked(MouseEvent evt) {
        Histograma.crear(this.imagen);
     }
-    private void escalaGrisesMouseClicked(MouseEvent evt) {
+//    private void escalaGrisesMouseClicked(java.awt.event.ActionEvent evt) {
+//   }
+    private void escalaGrisesMouseClicked(java.awt.event.ActionEvent evt) {                                           
         Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
         JFrameImagen auxResultante = new JFrameImagen(imagenResultante);
         auxResultante.JFrameMenu();
         auxResultante.setTitle("Imagen en espala de grises");
-   }
-    private void umbralizacionMouseClicked(MouseEvent evt) {
+    } 
+    private void umbralizacionMouseClicked(java.awt.event.ActionEvent evt) {
         int u1=39, u2=255;
         Image nuevaImagen = ModificarImagen.umbralizacion(this.imagen, u1, u2);
         JFrameImagen auxResultante = new JFrameImagen(nuevaImagen);
         auxResultante.JFumbral(u1, u2);
         auxResultante.setTitle("Imagen con umbrales");
     }
-    private void binarizacionMouseClicked(MouseEvent evt) {
+    private void binarizacionMouseClicked(java.awt.event.ActionEvent evt) {
         Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
         //pasar imagenResultante a binaria
         JFrameImagen auxResultante = new JFrameImagen(imagenResultante);

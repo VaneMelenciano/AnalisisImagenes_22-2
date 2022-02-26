@@ -62,11 +62,11 @@ public class Main {
         
         
         
-        /*Image imagenOriginal = AbrirImagen.openImage();
+        Image imagenOriginal = AbrirImagen.openImage();
         JFrameImagen original = new JFrameImagen(imagenOriginal);
         original.JFrameMenu();
         //int u1=0, u2=255;
-        int u1=39, u2=255;
+       /*int u1=39, u2=255;
         Image imagen= AbrirImagen.openImage();
         //Image nuevaImagen = ModificarImagen.umbralizacion(imagen, u1, u2);
         JFrameImagen auxResultante = new JFrameImagen(imagen);
