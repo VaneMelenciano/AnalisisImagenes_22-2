@@ -6,6 +6,7 @@
 package main;
 
 import gui.JFrameImagen;
+import gui.JFrameMenu;
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
 import herramientas.ModificarImagen;
@@ -69,12 +70,9 @@ public class Main {
 //        JFrameImagen nueva = new JFrameImagen(nuevaImagen1);
 //        nueva.JFrame();
 
-Image imagen = AbrirImagen.openImage();
-        Image imagenResultante = ModificarImagen.convertirEscalaGrises(imagen);
-        //Image imagenResultante = ModificarImagen.convertirBinaria(imagenResultante1, umbral1, umbral2);      
-        JFrameImagen auxResultante = new JFrameImagen(imagenResultante);
-        auxResultante.JFumbral(0, 255);
-        auxResultante.setTitle("Imagen binaria");
+        Image imagen = AbrirImagen.openImage();  
+        JFrameMenu auxResultante = new JFrameMenu(imagen);
+        
         //int u1=0, u2=255;
        /*int u1=39, u2=255;
         Image imagen= AbrirImagen.openImage();
