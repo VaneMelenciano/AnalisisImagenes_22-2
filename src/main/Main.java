@@ -62,9 +62,19 @@ public class Main {
         
         
         
-        Image imagenOriginal = AbrirImagen.openImage();
-        JFrameImagen original = new JFrameImagen(imagenOriginal);
-        original.JFrameMenu();
+//        Image imagen = AbrirImagen.openImage();
+//        //JFrameImagen original = new JFrameImagen(imagen);
+//        //original.JFrameMenu();
+//        Image nuevaImagen1 = ModificarImagen.convertirBinaria(ModificarImagen.convertirEscalaGrises(imagen), 0, 255);
+//        JFrameImagen nueva = new JFrameImagen(nuevaImagen1);
+//        nueva.JFrame();
+
+Image imagen = AbrirImagen.openImage();
+        Image imagenResultante = ModificarImagen.convertirEscalaGrises(imagen);
+        //Image imagenResultante = ModificarImagen.convertirBinaria(imagenResultante1, umbral1, umbral2);      
+        JFrameImagen auxResultante = new JFrameImagen(imagenResultante);
+        auxResultante.JFumbral(0, 255);
+        auxResultante.setTitle("Imagen binaria");
         //int u1=0, u2=255;
        /*int u1=39, u2=255;
         Image imagen= AbrirImagen.openImage();

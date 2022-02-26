@@ -262,6 +262,114 @@ public class JFrameImagen extends JFrame{
         setVisible(rootPaneCheckingEnabled);
     }
     
+    public void JFbinaria(int val1, int val2){
+        this.umbral1=val1; this.umbral2=val2;
+         etiqueta1 = new JLabel(new ImageIcon(this.imagen));
+         actualizarImagenBinaria();
+        JPanel panelCentral1 = new JPanel();
+        JPanel panelCentral2 = new JPanel();
+        JMenuBar opciones = new JMenuBar(); //opciones
+        JMenu menu1 = new JMenu(); //modificar imagen
+        JMenu menu2 = new JMenu(); //histograma
+        JMenu menu3 = new JMenu(); //guardar
+        JMenuItem item11 = new JMenuItem(); //escalaGrises
+        JMenuItem item12 = new JMenuItem(); //binaria
+        item11.setText("En escala de grises");
+        item12.setText("Binarizacion");
+        menu1.setText("Modificar imagen");
+        menu3.setText("Guardar");
+        menu2.setText("Histograma");
+        //slider
+        JSlider slider1 = new JSlider(0,255,this.umbral1);
+        JSlider slider2 = new JSlider(0,255,this.umbral2);
+        slider1.setMajorTickSpacing(50);
+        slider1.setMinorTickSpacing(10);
+        slider1.setPaintLabels(true);
+        slider1.setPaintTicks(true);
+        slider2.setMajorTickSpacing(50);
+        slider2.setMinorTickSpacing(10);
+        slider2.setPaintLabels(true);
+        slider2.setPaintTicks(true);
+        //JLabel txtUmbral1 = new JLabel("\t\t\tUmbra 1: ");
+        //JLabel txtUmbral2 = new JLabel("\t\t\tUmbra 2: ");
+        JLabel txtValor1 = new JLabel(val1<10 ? "00"+String.valueOf(val1) : val1<100 ? "0"+String.valueOf(val1) : String.valueOf(val1));
+        JLabel txtValor2 = new JLabel(val2<10 ? "00"+String.valueOf(val2) : val2<100 ? "0"+String.valueOf(val2) : String.valueOf(val2));
+        
+        slider1.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent evt ) {
+              slider1.setValue(slider1.getValue() );
+              int valor=slider1.getValue();
+              String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
+              txtValor1.setText(b1);
+                umbral1 = valor;
+              actualizarImagenBinaria();
+            }
+          } );
+        slider2.addChangeListener( new ChangeListener() {
+            public void stateChanged( ChangeEvent evt ) {
+              slider2.setValue(slider2.getValue());
+              int valor=slider2.getValue();
+              String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
+              txtValor2.setText(b1);
+              umbral2 = valor;
+              actualizarImagenBinaria();
+            }
+          } );
+        
+        
+        menu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                histogramaMouseClicked(evt);
+            }
+        });
+        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                try {
+                    guardarMouseClicked(evt);
+                } catch (IOException ex) {
+                    Logger.getLogger(JFrameImagen.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        item11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                escalaGrisesMouseClicked(evt);
+            }
+        });
+        item12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                umbralizacionMouseClicked(evt);
+            }
+        });
+        
+        menu1.add(item11);
+        menu1.add(item12);
+        opciones.add(menu1);
+        opciones.add(menu2);
+        opciones.add(menu3);
+        //opciones.setLocation(0, 0);
+        //panelCentral1.setLocation(0, 150);
+        panelCentral1.setSize(new Dimension(259,29));
+        panelCentral1.add(opciones);
+        slider1.setLocation(0, 0);
+        panelCentral2.add(slider1);
+        panelCentral2.add(txtValor1);
+        panelCentral2.add(slider2);
+        panelCentral2.add(txtValor2);
+        panelCentral2.setSize(new Dimension(480,56));
+        panelCentral2.setLocation(0, 30);
+        add(panelCentral1);
+        
+        add(panelCentral2);
+        //etiqueta1.setIcon(new ImageIcon(this.imagen));
+        etiqueta1.setLocation(0, 87);
+        add(etiqueta1);
+        //add(opciones);
+        int x = this.imagen.getWidth(null)>=480 ? this.imagen.getWidth(null) : 480;
+        setSize(new Dimension(x, this.imagen.getHeight(null)));
+        setVisible(rootPaneCheckingEnabled);
+    }
+    
     public Image getImagenOriginal(){
         return this.imagenOriginal;
     }
@@ -302,14 +410,19 @@ public class JFrameImagen extends JFrame{
         auxResultante.setTitle("Imagen con umbrales");
     }
     private void binarizacionMouseClicked(java.awt.event.ActionEvent evt) {
-        Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
-        //pasar imagenResultante a binaria
+        Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagenOriginal);
+        //Image imagenResultante = ModificarImagen.convertirBinaria(imagenResultante1, umbral1, umbral2);      
         JFrameImagen auxResultante = new JFrameImagen(imagenResultante);
-        auxResultante.JFrameMenu();
+        auxResultante.JFbinaria(0, 255);
         auxResultante.setTitle("Imagen binaria");
     }
     private void actualizarImagen() {
         Image imagenNueva = ModificarImagen.umbralizacion(this.imagenOriginal, this.umbral1, this.umbral2);
+        this.imagen = imagenNueva;
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    private void actualizarImagenBinaria() {
+        Image imagenNueva = ModificarImagen.convertirBinaria(this.imagenOriginal, this.umbral1, this.umbral2);
         this.imagen = imagenNueva;
         etiqueta1.setIcon(new ImageIcon(this.imagen));
     }

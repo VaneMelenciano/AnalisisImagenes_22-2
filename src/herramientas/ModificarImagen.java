@@ -105,4 +105,27 @@ public class ModificarImagen {
         
         return AbrirImagen.toImage(auxBuffed); 
     }
+    public static Image convertirBinaria(Image imagen, int umbral1, int umbral2){
+        if(umbral1<=umbral2){
+             BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){ 
+                Color nuevo = verificar2umbrales(new Color(auxBuffed.getRGB(i, j)), umbral1, umbral2);
+                auxBuffed.setRGB(i, j, nuevo.getRGB());
+            }
+        }
+        return AbrirImagen.toImage(auxBuffed); 
+        }
+        return imagen;
+    }
+    private static Color cambiarColorBinaria(Color c, int umbral1, int umbral2) {
+        int aux1 = c.getRed(), aux2 = c.getGreen(), aux3 = c.getBlue();
+        aux1 = (aux1>=umbral2 ? 255 : aux1); aux1 = (aux1<umbral1 ? 0 : aux1);
+        aux2 = (aux2>=umbral2 ? 255 : aux2); aux2 = (aux2<umbral1 ? 0 : aux2);
+        aux3 = (aux3>=umbral2 ? 255 : aux3); aux3 = (aux3<umbral1 ? 0 : aux3);
+        return new Color(aux1, aux2, aux3); //nuevo color con el primedio en cada canal
+    
+    }
 }
