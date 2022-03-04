@@ -42,9 +42,11 @@ public class JFrameMenu extends JFrameImagen{
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
+        JMenuItem item14 = new JMenuItem(); //negativo
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
+        item14.setText("Negativo");
         menu1.setText("Modificar imagen");
         menu3.setText("Guardar");
         menu2.setText("Histograma");
@@ -62,6 +64,11 @@ public class JFrameMenu extends JFrameImagen{
         item13.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 binarizacionMouseClicked(evt);
+            }
+        });
+        item14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                negativoMouseClicked(evt);
             }
         });
         menu2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -83,6 +90,7 @@ public class JFrameMenu extends JFrameImagen{
         menu1.add(item11);
         menu1.add(item12);
         menu1.add(item13);
+        menu1.add(item14);
         opciones.add(menu1);
         opciones.add(menu2);
         opciones.add(menu3);

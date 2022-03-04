@@ -109,6 +109,17 @@ public class JFrameImagen extends JFrame{
         auxResultante.setTitle("Imagen binaria");
     }
     
+    public void negativoMouseClicked(java.awt.event.ActionEvent evt) {
+        Image imagenResultante = ModificarImagen.negativo(this.imagenOriginal);
+        JFrameMenu auxResultante = new JFrameMenu(imagenResultante);
+        auxResultante.setTitle("Negativo de imagen");
+    }
+    public void negativoMouseClicked(java.awt.event.ActionEvent evt, Image imagen) {
+        Image imagenResultante = ModificarImagen.negativo(imagen);
+        JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Binarizacion, imagenResultante, 0, 255);
+        auxResultante.setTitle("Imagen binaria");
+    }
+    
     public void actualizarImagen() {
         Image imagenNueva = ModificarImagen.umbralizacion(this.imagenOriginal, this.umbral1, this.umbral2);
         this.imagen = imagenNueva;

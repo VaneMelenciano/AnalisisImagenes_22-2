@@ -72,6 +72,9 @@ public class Main {
 
         Image imagen = AbrirImagen.openImage();  
         JFrameMenu auxResultante = new JFrameMenu(imagen);
+        //JFrameImagen aux = new JFrameImagen(imagen);
+        //Image nueva = ModificarImagen.negativo(imagen);
+        //JFrameImagen aux1 = new JFrameImagen(nueva);
         
         //int u1=0, u2=255;
        /*int u1=39, u2=255;
