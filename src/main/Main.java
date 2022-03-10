@@ -63,15 +63,21 @@ public class Main {
         
         
         
-//        Image imagen = AbrirImagen.openImage();
+//       Image imagen = AbrirImagen.openImage();
 //        //JFrameImagen original = new JFrameImagen(imagen);
 //        //original.JFrameMenu();
 //        Image nuevaImagen1 = ModificarImagen.convertirBinaria(ModificarImagen.convertirEscalaGrises(imagen), 0, 255);
 //        JFrameImagen nueva = new JFrameImagen(nuevaImagen1);
 //        nueva.JFrame();
 
-        Image imagen = AbrirImagen.openImage();  
-        JFrameMenu auxResultante = new JFrameMenu(imagen);
+        Image imagen = AbrirImagen.openImage(); 
+        JFrameMenu aux = new JFrameMenu(imagen);
+//        int j = ModificarImagen.umbralizacionAuto2(Histograma.crearBN(imagen));
+//        System.out.println(j);
+//        Image nueva = ModificarImagen.umbralizacion(imagen, j, 255);
+//        JFrameMenu auxResultante = new JFrameMenu(nueva);
+//        
+        
         //JFrameImagen aux = new JFrameImagen(imagen);
         //Image nueva = ModificarImagen.negativo(imagen);
         //JFrameImagen aux1 = new JFrameImagen(nueva);

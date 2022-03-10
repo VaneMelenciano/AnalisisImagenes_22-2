@@ -90,11 +90,13 @@ public class JFrameImagen extends JFrame{
     }
     
     public void umbralizacionMouseClicked(java.awt.event.ActionEvent evt) {
-        JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, this.imagenOriginal, 0, 255);
+        int j = ModificarImagen.umbralizacionAuto(Histograma.crearBN(imagenOriginal));
+        JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, this.imagenOriginal, j, 255);
         auxResultante.setTitle("Imagen con umbrales");
     }
     public void umbralizacionMouseClicked(java.awt.event.ActionEvent evt, Image imagen) {
-        JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, imagen, 0, 255);
+        int j = ModificarImagen.umbralizacionAuto(Histograma.crearBN(imagen));
+        JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, imagen, j, 255);
         auxResultante.setTitle("Imagen con umbrales");
     }
     

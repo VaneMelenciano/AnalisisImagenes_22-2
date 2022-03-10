@@ -66,4 +66,20 @@ public class Histograma {
         grafica.crearYmostrarGrafica();
         
     }
+    public static int[] crearBN(Image imagen){ //blanco y negro
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+    
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        int[] canal = new int[256];
+        
+        //recorrer cada pixel de la imagen recibida
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){ 
+                 Color c = new Color(auxBuffed.getRGB(i, j)); //color del pixel
+                 canal[c.getRed()]++;
+            }
+        }
+        return canal;
+    }
 }

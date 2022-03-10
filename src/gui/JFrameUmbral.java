@@ -27,7 +27,7 @@ import javax.swing.event.ChangeListener;
  */
 public class JFrameUmbral extends JFrameImagen{
     public JFrameUmbral(Seleccion seleccion, Image imagen, int val1, int val2){
-        super(seleccion, imagen, val2, val2);
+        super(seleccion, imagen, val1, val2);
     }
     
     public void crear(){
