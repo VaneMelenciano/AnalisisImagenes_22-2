@@ -3,12 +3,14 @@ package gui;
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
 import herramientas.ModificarImagen;
+import herramientas.UmbralAutomatico;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -77,27 +79,48 @@ public class JFrameImagen extends JFrame{
     public void histogramaMouseClicked(MouseEvent evt) {
        Histograma.crear(this.imagen);
     }
+    public void histogramaMouseClicked(ActionEvent e) {
+       Histograma.crear(this.imagen);
+    }
     
     public void escalaGrisesMouseClicked(java.awt.event.ActionEvent evt) {                                           
         Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
         JFrameMenu auxResultante = new JFrameMenu(imagenResultante);
-        auxResultante.setTitle("Imagen en espala de grises");
+        auxResultante.setTitle("Imagen en escala de grises");
     }
     public void escalaGrisesMouseClicked(java.awt.event.ActionEvent evt, Image imagen) {                                           
         Image imagenResultante = ModificarImagen.convertirEscalaGrises(imagen);
         JFrameMenu auxResultante = new JFrameMenu(imagenResultante);
-        auxResultante.setTitle("Imagen en espala de grises");
+        auxResultante.setTitle("Imagen en escala de grises");
     }
     
+    /*public void escalaGrisesMouseClicked(java.awt.event.ActionEvent evt) {
+       Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
+        JFrameMenu auxResultante = new JFrameMenu(imagenResultante);
+        auxResultante.setTitle("Imagen en escala de grises");
+    }*/
+    
     public void umbralizacionMouseClicked(java.awt.event.ActionEvent evt) {
-        int j = ModificarImagen.umbralizacionAuto(Histograma.crearBN(imagenOriginal));
+        int[] canal = Histograma.crearBN(this.imagenOriginal);
+        double[] nuevo = new double[canal.length];
+        for(int i=0; i<canal.length; i++){
+            nuevo[i] = canal[i];
+        }
+        int j= UmbralAutomatico.metodoIterativo(nuevo);
+        //int j = ModificarImagen.umbralizacionAuto(Histograma.crearBN(imagenOriginal));
         JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, this.imagenOriginal, j, 255);
-        auxResultante.setTitle("Imagen con umbrales");
+        auxResultante.setTitle("Imagen con umbrales automaticos");
     }
     public void umbralizacionMouseClicked(java.awt.event.ActionEvent evt, Image imagen) {
-        int j = ModificarImagen.umbralizacionAuto(Histograma.crearBN(imagen));
+        int[] canal = Histograma.crearBN(this.imagen);
+        double[] nuevo = new double[canal.length];
+        for(int i=0; i<canal.length; i++){
+            nuevo[i] = canal[i];
+        }
+        int j= UmbralAutomatico.metodoIterativo(nuevo);
+        //int j = ModificarImagen.umbralizacionAuto(Histograma.crearBN(imagen));
         JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, imagen, j, 255);
-        auxResultante.setTitle("Imagen con umbrales");
+        auxResultante.setTitle("Imagen con umbrales automaticos");
     }
     
     public void binarizacionMouseClicked(java.awt.event.ActionEvent evt) {

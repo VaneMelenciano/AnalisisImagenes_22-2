@@ -7,9 +7,12 @@ package main;
 
 import gui.JFrameImagen;
 import gui.JFrameMenu;
+import gui.JFrameUmbral;
+import gui.Seleccion;
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
 import herramientas.ModificarImagen;
+import herramientas.UmbralAutomatico;
 import java.awt.Image;
 import java.io.IOException;
 
@@ -72,6 +75,15 @@ public class Main {
 
         Image imagen = AbrirImagen.openImage(); 
         JFrameMenu aux = new JFrameMenu(imagen);
+//        int[] canal = Histograma.crearBN(imagen);
+//        double[] nuevo = new double[canal.length];
+//        for(int i=0; i<canal.length; i++){
+//            nuevo[i] = canal[i];
+//        }
+//        int j= UmbralAutomatico.metodoIterativo(nuevo);
+//        JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Umbralizacion, imagen, j, 255);
+        //Image nueva = ModificarImagen.cambiarTemperatura(imagen, -50);
+        //JFrameMenu auxResultante = new JFrameMenu(nueva);
 //        int j = ModificarImagen.umbralizacionAuto2(Histograma.crearBN(imagen));
 //        System.out.println(j);
 //        Image nueva = ModificarImagen.umbralizacion(imagen, j, 255);

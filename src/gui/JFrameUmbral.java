@@ -8,6 +8,9 @@ package gui;
 import herramientas.ModificarImagen;
 import java.awt.Dimension;
 import java.awt.Image;
+import java.awt.Menu;
+import java.awt.MenuBar;
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -51,6 +54,9 @@ public class JFrameUmbral extends JFrameImagen{
         menu1.setText("Modificar imagen");
         menu3.setText("Guardar");
         menu2.setText("Histograma");
+        /*menu1.setName("Modificar imagen");
+        menu3.setName("Guardar");
+        menu2.setName("Histograma");*/
         //slider
         JSlider slider1 = new JSlider(0,255,this.umbral1);
         JSlider slider2 = new JSlider(0,255,this.umbral2);
@@ -90,6 +96,26 @@ public class JFrameUmbral extends JFrameImagen{
             }
           } );
         
+        /*menu2.addActionListener(new java.awt.event.ActionListener() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                histogramaMouseClicked(evt);
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });*/
+        /*menu3.addActionListener(new java.awt.event.ActionListener() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                escalaGrisesMouseClicked(evt, getImagen());
+            }
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+            }
+        });*/
         
         menu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -145,7 +171,12 @@ public class JFrameUmbral extends JFrameImagen{
         add(etiqueta1);
         //acomodar tamaño de ventana
         int x = this.imagen.getWidth(null)>=480 ? this.imagen.getWidth(null) : 480;
-        setSize(new Dimension(x, this.imagen.getHeight(null)));
+        setSize(new Dimension(x, this.imagen.getHeight(null) + 200));
         setVisible(rootPaneCheckingEnabled);
+        
+        /*MenuBar menuBar = new MenuBar();
+        menuBar.add(menu1);
+        menuBar.add(menu2);
+        setMenuBar(menuBar);*/
     }
 }

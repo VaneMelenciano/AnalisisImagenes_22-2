@@ -139,7 +139,6 @@ public class ModificarImagen {
         }
         return AbrirImagen.toImage(auxBuffed);  
     }
-
     private static Color calcularComplementario(Color c) {
        /*
         r (rojo) = 255 – 106 = 149
@@ -148,39 +147,8 @@ public class ModificarImagen {
         */
        return new Color(255-c.getRed(), 255-c.getGreen(), 255-c.getBlue());
     }
-    
-    /*public static int umbralizacionAuto1(int[] histo){
-        int j=0, jaux=0, u1=0, u2=0;
-        boolean u1bandera = false;
-        for(int i=0; i<histo.length; ){
-            //PRIMERA PARTE
-            //toma el primer valor diferente a cero
-            while(histo[i]<=0) i++; 
-            j = histo[i];
-            //va a avanzar hasta encontrar el primer pico
-            while(histo[i]<histo[i+1]) i++;
-                //se llegó al pico
-            u1=histo[i];
-            u1bandera=true;
-            //busca la parte baja del pico
-            while(histo[i]>histo[i+1]) i++;
-                //se llega a la parte baja
-            j=histo[i]; //se actualiza j
-            //SEGUNDA PARTE
-            //va a avanzar hasta encontrar un pico
-            while(histo[i]<histo[i+1]) i++;
-                //se llegó al pico
-            if(histo[i]<u2)u2=histo[i];
-            else u1=histo[i];
-            //busca la parte baja del pico
-            while(histo[i]>histo[i+1]) i++;
-                //se llega a la parte baja
-            jaux=histo[i]; //se actualiza jaux
-        }
-        return j;
-    }*/
-    
-    public static int umbralizacionAuto(int[] histo){
+   
+    public static int umbralizacionAuto/*Automatica*/(int[] histo){
         int j=125, jaux=0;
         boolean bandera = false; 
         while(j!=jaux){
@@ -211,5 +179,46 @@ public class ModificarImagen {
             
         }
         return j;
+    }
+    
+    public static Image cambiarTemperatura(Image imagen, int valor){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        boolean bandera = (valor<0 ? false : true); //trues: calida, false: fria
+        valor = Math.abs(valor);
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                if(bandera){
+                    Color nuevo = aCalido(new Color(auxBuffed.getRGB(i, j)), valor);
+                    auxBuffed.setRGB(i, j, nuevo.getRGB());
+                }
+                else{
+                    Color nuevo = aFrio(new Color(auxBuffed.getRGB(i, j)), valor);
+                    auxBuffed.setRGB(i, j, nuevo.getRGB());
+                }
+            }
+        }
+        return AbrirImagen.toImage(auxBuffed); 
+    }
+    private static Color aCalido(Color c, int valor){
+        //R++ B--
+        int aux1 = c.getRed()+valor, aux2 = c.getGreen(), aux3 = c.getBlue()-valor;
+        aux1 = ((aux1>255) ? 255 : aux1);
+        aux3 = ((aux3>255) ? 255 : aux3);
+        
+        aux1 = ((aux1<0) ? 0 : aux1);
+        aux3 = ((aux3<0) ? 0 : aux3);
+        return new Color(aux1, aux2, aux3);
+    }
+    private static Color aFrio(Color c, int valor){
+        //R++ B--
+        int aux1 = c.getRed()-valor, aux2 = c.getGreen(), aux3 = c.getBlue()+valor;
+        aux1 = ((aux1>=255) ? 255 : aux1);
+        aux3 = ((aux3>=255) ? 255 : aux3);
+        
+        aux1 = ((aux1<=0) ? 0 : aux1);
+        aux3 = ((aux3<=0) ? 0 : aux3);
+        return new Color(aux1, aux2, aux3);
     }
 }
