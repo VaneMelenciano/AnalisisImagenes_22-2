@@ -34,12 +34,16 @@ public class JFrameImagen extends JFrame{
     public Image imagen;
     public Image imagenOriginal;
     public int umbral1, umbral2;
+    public double umbral;
     public Seleccion seleccion;
+    //public SeleccionExpansion seleccionExp;
     public JLabel etiqueta1; //etiqueta para panel con umbral
 
     public JFrameImagen(Image imagen){                                    
         this.imagenOriginal = imagen;
         this.imagen = imagen;
+        this.umbral1=0;
+        this.umbral2=255;
         crear();
     }
     public JFrameImagen(Seleccion seleccion, Image imagen, int v1, int v2){                                    
@@ -47,8 +51,34 @@ public class JFrameImagen extends JFrame{
         this.imagen = imagen;
         this.umbral1=v1; this.umbral2=v2;
         this.seleccion = seleccion;
-        crear();
-        
+        crear();  
+    }
+    /*public JFrameImagen(SeleccionExpansion seleccion, Image imagen, int v1, int v2){                                    
+        this.imagenOriginal = imagen;
+        this.imagen = imagen;
+        this.umbral1=v1; this.umbral2=v2;
+        this.seleccionExp = seleccion;
+        crear();  
+    }*/
+    public JFrameImagen(Seleccion seleccionExp, Image imagen, int v1){                                    
+        this.imagenOriginal = imagen;
+        this.imagen = imagen;
+        this.umbral1=v1;
+        this.seleccion = seleccionExp;
+        crear();  
+    }
+    public JFrameImagen(Seleccion seleccionExp, Image imagen, double v1){                                    
+        this.imagenOriginal = imagen;
+        this.imagen = imagen;
+        this.umbral=v1;
+        this.seleccion = seleccionExp;
+        crear();  
+    }
+    public JFrameImagen(Seleccion seleccionExp, Image imagen){                                    
+        this.imagenOriginal = imagen;
+        this.imagen = imagen;
+        this.seleccion = seleccionExp;
+        crear();  
     }
     //normal, solo muestra imagen
     public void crear(){
@@ -144,14 +174,67 @@ public class JFrameImagen extends JFrame{
         JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Binarizacion, imagenResultante, 0, 255);
         auxResultante.setTitle("Imagen binaria");
     }
+    public void expExpMouseClicked(ActionEvent evt) { //expansion Exponencial
+        double z = 0.5;
+        Image imagenResultante = ModificarImagen.expansionExp(this.imagenOriginal, z);
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Exponencial, imagenResultante, z);
+        auxResultante.setTitle("Expansión exponencial");
+    }
+    public void expExpMouseClicked(ActionEvent evt, Image imagen) { //expansion Exponencial
+        double z = 0.5;
+        Image imagenResultante = ModificarImagen.expansionExp(imagen, z);
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Exponencial, imagenResultante, z);
+        //Seleccion seleccion, Image imagen, int val1, int val2
+        auxResultante.setTitle("Expansión exponencial");
+    }
+    public void expLinMouseClicked(ActionEvent evt) { //expansion Lineal
+        System.out.println("Entro 1");
+        Image imagenResultante = ModificarImagen.expansionLinal(this.imagenOriginal, this.umbral1, this.umbral2);
+        System.out.println("Retorno");
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Lineal, imagenResultante, this.umbral1, this.umbral2);
+        auxResultante.setTitle("Expansión Lineal");
+    }
+    public void expLinMouseClicked(ActionEvent evt, Image imagen) { //expansion Lineal
+        Image imagenResultante = ModificarImagen.expansionLinal(imagen, this.umbral1, this.umbral2);
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Lineal, imagenResultante, 0, 255);
+        auxResultante.setTitle("Expansión Lineal");
+    }
+    public void expLogMouseClicked(ActionEvent evt) { //expansion Logaritmica
+        System.out.println("Entro 1");
+        Image imagenResultante = ModificarImagen.expansionLinal(this.imagenOriginal, this.umbral1, this.umbral2);
+        System.out.println("Retorno");
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Logaritmica, imagenResultante, this.umbral1, this.umbral2);
+        auxResultante.setTitle("Expansión Lineal");
+    }
+    public void expLogMouseClicked(ActionEvent evt, Image imagen) { //expansion Logaritmica
+        Image imagenResultante = ModificarImagen.expansionLogaritmica(imagen);
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Logaritmica, imagenResultante);
+        auxResultante.setTitle("Expansión Lineal");
+    }
     
     public void actualizarImagen() {
+        System.out.println("Aqui");
         Image imagenNueva = ModificarImagen.umbralizacion(this.imagenOriginal, this.umbral1, this.umbral2);
         this.imagen = imagenNueva;
         etiqueta1.setIcon(new ImageIcon(this.imagen));
     }
     public void actualizarImagenBinaria() {
         Image imagenNueva = ModificarImagen.convertirBinaria(this.imagenOriginal, this.umbral1, this.umbral2);
+        this.imagen = imagenNueva;
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizarImagenExponencial() {
+        Image imagenNueva = ModificarImagen.expansionExp(this.imagenOriginal, umbral);
+        this.imagen = imagenNueva;
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizarImagenLineal() {
+        Image imagenNueva = ModificarImagen.expansionLinal(this.imagenOriginal, umbral1, umbral2);
+        this.imagen = imagenNueva;
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizarImagenLog() {
+        Image imagenNueva = ModificarImagen.expansionLogaritmica(this.imagenOriginal);
         this.imagen = imagenNueva;
         etiqueta1.setIcon(new ImageIcon(this.imagen));
     }

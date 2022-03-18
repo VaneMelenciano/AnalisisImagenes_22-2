@@ -75,6 +75,16 @@ public class Main {
 
         Image imagen = AbrirImagen.openImage(); 
         JFrameMenu aux = new JFrameMenu(imagen);
+        Image nueva1 = ModificarImagen.expansionLinal(imagen, 40, 200);
+        //Image nueva2 = ModificarImagen.expansionExp(imagen, 0.001);
+        //Image nueva3 = ModificarImagen.expansionLogaritmica(imagen);
+        
+        JFrameImagen aux1 = new JFrameMenu(nueva1);
+        aux1.setTitle("lineal");
+        //JFrameImagen aux2 = new JFrameMenu(nueva2);
+        //aux2.setTitle("Exponencial");
+        //JFrameImagen aux3 = new JFrameMenu(nueva3);
+        //aux3.setTitle("Logaritmica");
 //        int[] canal = Histograma.crearBN(imagen);
 //        double[] nuevo = new double[canal.length];
 //        for(int i=0; i<canal.length; i++){

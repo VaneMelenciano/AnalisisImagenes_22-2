@@ -203,22 +203,87 @@ public class ModificarImagen {
     }
     private static Color aCalido(Color c, int valor){
         //R++ B--
-        int aux1 = c.getRed()+valor, aux2 = c.getGreen(), aux3 = c.getBlue()-valor;
+        int aux1 = validar(c.getRed()+valor);
+        int aux2 = c.getGreen();
+        int aux3 = validar(c.getBlue()-valor);
+        /*int aux1 = c.getRed()+valor, aux2 = c.getGreen(), aux3 = c.getBlue()-valor;
         aux1 = ((aux1>255) ? 255 : aux1);
         aux3 = ((aux3>255) ? 255 : aux3);
         
         aux1 = ((aux1<0) ? 0 : aux1);
-        aux3 = ((aux3<0) ? 0 : aux3);
+        aux3 = ((aux3<0) ? 0 : aux3);*/
         return new Color(aux1, aux2, aux3);
     }
     private static Color aFrio(Color c, int valor){
         //R++ B--
-        int aux1 = c.getRed()-valor, aux2 = c.getGreen(), aux3 = c.getBlue()+valor;
+        int aux1 = validar(c.getRed()-valor);
+        int aux2 = c.getGreen();
+        int aux3 = validar(c.getBlue()+valor);
+        /*int aux1 = c.getRed()-valor, aux2 = c.getGreen(), aux3 = c.getBlue()+valor;
         aux1 = ((aux1>=255) ? 255 : aux1);
         aux3 = ((aux3>=255) ? 255 : aux3);
         
         aux1 = ((aux1<=0) ? 0 : aux1);
-        aux3 = ((aux3<=0) ? 0 : aux3);
+        aux3 = ((aux3<=0) ? 0 : aux3);*/
         return new Color(aux1, aux2, aux3);
     }
+    public static Image expansionLinal(Image imagen, int r1, int r2){
+        System.out.println("En espansion lineal");
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                    Color c = new Color(auxBuffed.getRGB(i, j));
+                    int aux = 255/(r2-r1);
+                    int r = validar((c.getRed() - r1) * aux);
+                    int g = validar((c.getGreen()-r1)*aux);
+                    int b = validar((c.getBlue() - r1)*aux);
+                    Color nuevo = new Color (r, g, b);
+                    auxBuffed.setRGB(i, j, nuevo.getRGB());
+            }
+        }
+        return AbrirImagen.toImage(auxBuffed); 
+    }
+    public static Image expansionLogaritmica(Image imagen){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                    Color c = new Color(auxBuffed.getRGB(i, j));
+                    int aux = (int) (Math.log(1+255));
+                    int r = validar((int) ((255*Math.log(1+c.getRed()))/aux));
+                    int g = validar((int) ((255*Math.log(1+c.getGreen()))/aux));
+                    int b = validar((int) ((255*Math.log(1+c.getBlue()))/aux));
+                    Color nuevo = new Color (r, g, b);
+                    auxBuffed.setRGB(i, j, nuevo.getRGB());
+            }
+        }
+        return AbrirImagen.toImage(auxBuffed); 
+    }
+    public static Image expansionExp(Image imagen, double z){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                    Color c = new Color(auxBuffed.getRGB(i, j));
+                    int aux = (int) (Math.log(1+255));
+                    int r = validar((int) (Math.pow(1+z,c.getRed())/z));
+                    int g = validar((int) (Math.pow(1+z,c.getGreen())/z));
+                    int b = validar((int) (Math.pow(1+z,c.getBlue())/z));
+                    Color nuevo = new Color (r, g, b);
+                    auxBuffed.setRGB(i, j, nuevo.getRGB());
+            }
+        }
+        return AbrirImagen.toImage(auxBuffed); 
+    }
+    
+    private static int validar(int aux1){
+        aux1 = ((aux1>=255) ? 255 : aux1);
+        aux1 = ((aux1<=0) ? 0 : aux1);
+        return aux1;
+    }
+    // int r = (int)((255*Math.log(1+pixel.getRed()))/(Math.log(1+255)));
 }

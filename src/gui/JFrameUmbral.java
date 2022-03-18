@@ -43,21 +43,26 @@ public class JFrameUmbral extends JFrameImagen{
         JPanel panelCentral2 = new JPanel();
         JMenuBar opciones = new JMenuBar(); //opciones
         JMenu menu1 = new JMenu(); //modificar imagen
-        JMenu menu2 = new JMenu(); //histograma
-        JMenu menu3 = new JMenu(); //guardar
+        JMenu menu2 = new JMenu(); //contraste
+        /**/
+        JMenu menu3 = new JMenu(); //histograma
+        JMenu menu4 = new JMenu(); //guardar
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
+        JMenuItem item21 = new JMenuItem(); //lineal
+        JMenuItem item22 = new JMenuItem(); //logaritmico
+        JMenuItem item23 = new JMenuItem(); //exponencial
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
+        item21.setText("Lineal");
+        item22.setText("Logaritmico");
+        item23.setText("Exponencial");
         menu1.setText("Modificar imagen");
-        menu3.setText("Guardar");
-        menu2.setText("Histograma");
-        /*menu1.setName("Modificar imagen");
-        menu3.setName("Guardar");
-        menu2.setName("Histograma");*/
-        //slider
+        menu2.setText("Contraste");
+        menu4.setText("Guardar");
+        menu3.setText("Histograma");
         JSlider slider1 = new JSlider(0,255,this.umbral1);
         JSlider slider2 = new JSlider(0,255,this.umbral2);
         slider1.setMajorTickSpacing(50);
@@ -68,8 +73,6 @@ public class JFrameUmbral extends JFrameImagen{
         slider2.setMinorTickSpacing(10);
         slider2.setPaintLabels(true);
         slider2.setPaintTicks(true);
-        //JLabel txtUmbral1 = new JLabel("\t\t\tUmbra 1: ");
-        //JLabel txtUmbral2 = new JLabel("\t\t\tUmbra 2: ");
         JLabel txtValor1 = new JLabel(this.umbral1<10 ? "00"+String.valueOf(this.umbral1) : this.umbral1<100 ? "0"+String.valueOf(this.umbral1) : String.valueOf(this.umbral1));
         JLabel txtValor2 = new JLabel(this.umbral2<10 ? "00"+String.valueOf(this.umbral2) : this.umbral2<100 ? "0"+String.valueOf(this.umbral2) : String.valueOf(this.umbral2));
         
@@ -96,33 +99,13 @@ public class JFrameUmbral extends JFrameImagen{
             }
           } );
         
-        /*menu2.addActionListener(new java.awt.event.ActionListener() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                histogramaMouseClicked(evt);
-            }
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });*/
-        /*menu3.addActionListener(new java.awt.event.ActionListener() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                escalaGrisesMouseClicked(evt, getImagen());
-            }
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-            }
-        });*/
         
-        menu2.addMouseListener(new java.awt.event.MouseAdapter() {
+        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 histogramaMouseClicked(evt);
             }
         });
-        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
+        menu4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
                     guardarMouseClicked(evt);
@@ -147,14 +130,34 @@ public class JFrameUmbral extends JFrameImagen{
             }
         });
         
+        item21.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expLinMouseClicked(evt); //expansion Lineal
+            }
+        });
+        item22.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expLogMouseClicked(evt); //expansion Logaritmica
+            }
+        });
+        item23.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                expExpMouseClicked(evt); //expansion Exponencial
+            }
+        });
+        
         menu1.add(item11);
         menu1.add(item12);
         menu1.add(item13);
+        menu2.add(item21);
+        menu2.add(item22);
+        menu2.add(item23);
         opciones.add(menu1);
         opciones.add(menu2);
         opciones.add(menu3);
+        opciones.add(menu4);
         
-        panelCentral1.setSize(new Dimension(259,29));
+        panelCentral1.setSize(new Dimension(320,29));
         panelCentral1.add(opciones);
         slider1.setLocation(0, 0);
         
@@ -162,6 +165,7 @@ public class JFrameUmbral extends JFrameImagen{
         panelCentral2.add(txtValor1);
         panelCentral2.add(slider2);
         panelCentral2.add(txtValor2);
+        
         panelCentral2.setSize(new Dimension(480,56));
         panelCentral2.setLocation(0, 30);
         
