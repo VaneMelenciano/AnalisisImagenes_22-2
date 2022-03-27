@@ -85,7 +85,7 @@ public class JFrameImagen extends JFrame{
         JLabel etiqueta = new JLabel(new ImageIcon(this.imagen));
         setLayout(new GridLayout(1,1));
         add(etiqueta);
-        setSize(new Dimension(this.imagen.getWidth(null), this.imagen.getWidth(null)));
+        setSize(new Dimension(this.imagen.getWidth(null)+25, this.imagen.getWidth(null)+25));
         setVisible(rootPaneCheckingEnabled);
     }
     
@@ -199,17 +199,18 @@ public class JFrameImagen extends JFrame{
         JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Lineal, imagenResultante, 0, 255);
         auxResultante.setTitle("Expansión Lineal");
     }
+    
     public void expLogMouseClicked(ActionEvent evt) { //expansion Logaritmica
-        System.out.println("Entro 1");
-        Image imagenResultante = ModificarImagen.expansionLinal(this.imagenOriginal, this.umbral1, this.umbral2);
-        System.out.println("Retorno");
-        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Logaritmica, imagenResultante, this.umbral1, this.umbral2);
-        auxResultante.setTitle("Expansión Lineal");
+        //System.out.println("Entro 1");
+        Image imagenResultante = ModificarImagen.expansionLogaritmica(this.imagenOriginal);
+        //System.out.println("Retorno");
+        JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Logaritmica, imagenResultante);
+        auxResultante.setTitle("Expansión Logaritmica");
     }
     public void expLogMouseClicked(ActionEvent evt, Image imagen) { //expansion Logaritmica
         Image imagenResultante = ModificarImagen.expansionLogaritmica(imagen);
         JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Logaritmica, imagenResultante);
-        auxResultante.setTitle("Expansión Lineal");
+        auxResultante.setTitle("Expansión Logaritmica");
     }
     
     public void actualizarImagen() {

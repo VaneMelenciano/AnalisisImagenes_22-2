@@ -15,6 +15,7 @@ import herramientas.ModificarImagen;
 import herramientas.UmbralAutomatico;
 import java.awt.Image;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  *
@@ -73,14 +74,91 @@ public class Main {
 //        JFrameImagen nueva = new JFrameImagen(nuevaImagen1);
 //        nueva.JFrame();
 
-        Image imagen = AbrirImagen.openImage(); 
-        JFrameMenu aux = new JFrameMenu(imagen);
-        Image nueva1 = ModificarImagen.expansionLinal(imagen, 40, 200);
-        //Image nueva2 = ModificarImagen.expansionExp(imagen, 0.001);
+        //Image imagen = AbrirImagen.openImage(); 
+        //JFrameMenu aux = new JFrameMenu(imagen);
+        //Image nueva1 = ModificarImagen.expansionLinal(imagen, 40, 200);
+        //Image nueva = ModificarImagen.expansionExp(imagen, 1000000000);
         //Image nueva3 = ModificarImagen.expansionLogaritmica(imagen);
         
-        JFrameImagen aux1 = new JFrameMenu(nueva1);
-        aux1.setTitle("lineal");
+        //JFrameImagen aux1 = new JFrameMenu(nueva);
+        //aux1.setTitle("lineal");
+        
+        
+        Image imagen = AbrirImagen.openImage(); 
+        //Image nueva = ModificarImagen.convertirEscalaGrises(imagen);
+        //JFrameMenu aux = new JFrameMenu(imagen);
+        /*int[][] mascara = new int[][]{{-1,-1,0},
+                                      {-1,0,1},
+                                      {0,1,1}};*/
+        /*int[][] mascara = new int[][]{{-1,-1,0},
+                                      {-1,0,1},
+                                      {0,1,1}};*/
+        /*int[][] mascara = new int[][]{{0,0,0},
+                                      {0,2,0},
+                                      {0,0,0}};*/
+        /*int[][] mascara = new int[][]{{1,1,1},
+                                      {1,1,1},
+                                      {1,1,1}};*/
+        /*int[][] mascara = new int[][]{{2,2,2},
+                                      {2,2,2},
+                                      {2,2,2}};*/
+        /*int[][] mascara = new int[][]{{-1, -1, -1}, 
+            {-1,  9, -1}, 
+            {-1, -1, -1}};*/
+        /*int[][] mascara = new int[][]{{1,  1,  1,  1,  1}, 
+            {1,  4,  4,  4,  1}, 
+            {1,  4, 12,  4,  1}, 
+            {1,  4,  4,  4,  1}, 
+            {1,  1,  1,  1,  1}};*/
+        /*int[][] mascara = new int[][]{{0,0,0,0,0}, 
+            {0,0,-1,0,0}, 
+            {0,-1,5,-1,0}, 
+            {0,0,-1,0,0}, 
+            {0,0,0,0,0}};*/
+        /*int[][] mascara = new int[][]{{1,0,-1}, //Gradiente este
+                                      {2,0,-2},
+                                      {1,0,-1}};*/ //NO SALE
+        /*int[][] mascara = new int[][]{{1,2,1},
+                                      {2,4,2},
+                                      {1,2,1}};*/
+        /*int[][] mascara = new int[][]{{-1, -3, -4, -3, -1}, //Nitidez 5x5
+                {-3,  0,  6,  0, -3},
+                {-4,  6, 21,  6, -4}, 
+                {-3,  0,  6,  0, -3},
+                {-1, -3, -4, -3, -1}};*/
+        /*int[][] mascara = new int[][]{{-1, -1, -1}, 
+            {-1,  9, -1}, 
+            {-1, -1, -1}};*/
+        /*int[][] mascara = new int[][]{{-1, -2, -1},
+            { 0,  0,  0},
+            { 1,  2,  1}};*/
+        int[][] mascara = new int[][]{{0,1,0},
+            {1,-4,1},
+            {0,1,0}};
+        /*int[][] mascara = new int[][]{{-2,-1,0}, //repujado
+            {-1,1,1},
+            {0,1,2}};*/
+        /*int[][] mascara = new int[][]{{0,0,0,0,0},
+            {0,-2,-1,0,0},
+            {0,-1,1,1,0},
+            {0,0,1,2,0},
+            {0,0,0,0,0,}};*/
+        /*int[][] mascara = new int[][]{{0,0,0,0,0}, //BORDES
+            {0,0,0,0,0},
+            {0,-1,1,0,0},
+            {0,0,0,0,0},
+            {0,0,0,0,0,}};*/
+        for(int i=0; i<mascara.length; i++){
+            System.out.println(Arrays.toString(mascara[i]));
+        }
+        //Image nueva1 = ModificarImagen.convolucion(nueva, mascara, 9);
+        //Image nueva1 = ModificarImagen.convolucion(imagen, mascara, 7);
+        //JFrameImagen aux1 = new JFrameMenu(nueva1);
+        for(int i=1; i<30; i++){
+          Image nueva1 = ModificarImagen.convolucion(imagen, mascara, i);
+            JFrameImagen aux1 = new JFrameMenu(nueva1); 
+            aux1.setTitle(i+"");
+        }
         //JFrameImagen aux2 = new JFrameMenu(nueva2);
         //aux2.setTitle("Exponencial");
         //JFrameImagen aux3 = new JFrameMenu(nueva3);

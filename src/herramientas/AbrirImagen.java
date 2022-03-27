@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -73,7 +75,13 @@ public class AbrirImagen{
         return bi;
     }
     public static void saveImage(BufferedImage imagen) throws IOException{
-        File outputfile = new File("nuevaImagen.png");
+        SimpleDateFormat ff1 = new SimpleDateFormat("ss-mm-hh");
+        SimpleDateFormat ff2 = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = new Date();
+        String time1 = ff1.format(d);
+        String time2 = ff2.format(d);
+        String name = "imagen_" + time1 + "_" +time2;
+        File outputfile = new File(".././Pruebas/" + name + ".png");
         ImageIO.write(imagen, "png", outputfile);
     }
     

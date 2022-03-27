@@ -123,13 +123,13 @@ public class JFrameMenu extends JFrameImagen{
         opciones.add(menu3);
         opciones.add(menu4);
         opciones.setLocation(0, 0);
-        panelCentral.setSize(new Dimension(320,27));
+        panelCentral.setSize(new Dimension(350,27));
         panelCentral.add(opciones);
         add(panelCentral);
         add(etiqueta);
         //add(opciones);
-        
-        setSize(new Dimension(this.imagen.getWidth(null), this.imagen.getWidth(null)));
+        int n = (this.imagen.getWidth(null)<350) ? 350:this.imagen.getWidth(null);
+        setSize(new Dimension(n, this.imagen.getWidth(null)+30));
         setVisible(rootPaneCheckingEnabled);
     }
 }

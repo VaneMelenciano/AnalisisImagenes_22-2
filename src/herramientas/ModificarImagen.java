@@ -228,7 +228,6 @@ public class ModificarImagen {
         return new Color(aux1, aux2, aux3);
     }
     public static Image expansionLinal(Image imagen, int r1, int r2){
-        System.out.println("En espansion lineal");
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
         int ancho = auxBuffed.getWidth();
         int alto = auxBuffed.getHeight();
@@ -263,6 +262,7 @@ public class ModificarImagen {
         return AbrirImagen.toImage(auxBuffed); 
     }
     public static Image expansionExp(Image imagen, double z){
+        if(z<=0) z=0.01;
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
         int ancho = auxBuffed.getWidth();
         int alto = auxBuffed.getHeight();
@@ -270,10 +270,13 @@ public class ModificarImagen {
             for(int j=0; j<alto; j++){
                     Color c = new Color(auxBuffed.getRGB(i, j));
                     int aux = (int) (Math.log(1+255));
-                    int r = validar((int) (Math.pow(1+z,c.getRed())/z));
-                    int g = validar((int) (Math.pow(1+z,c.getGreen())/z));
-                    int b = validar((int) (Math.pow(1+z,c.getBlue())/z));
-                    Color nuevo = new Color (r, g, b);
+                    //int r = validar((int) (Math.pow(1+z,c.getRed())/z));
+                    //int r = validar((int) (Math.pow(c.getRed(), 1 + z) / z));
+                    int r = validar((int) (Math.pow(c.getRed(), 1 + z) / z));
+                    
+                    int g = validar((int) (Math.pow(c.getGreen(), 1 + z) / z));
+                    int b = validar((int) (Math.pow(c.getBlue(), 1 + z) / z));
+                    Color nuevo = new Color (r, g, b);System.out.println(r + "  " + g + "  " + b +"  ");
                     auxBuffed.setRGB(i, j, nuevo.getRGB());
             }
         }
@@ -281,9 +284,53 @@ public class ModificarImagen {
     }
     
     private static int validar(int aux1){
+        aux1 = Math.abs(aux1);
         aux1 = ((aux1>=255) ? 255 : aux1);
         aux1 = ((aux1<=0) ? 0 : aux1);
         return aux1;
     }
     // int r = (int)((255*Math.log(1+pixel.getRed()))/(Math.log(1+255)));
+    
+    //mascara de convolución
+    public static Image convolucion(Image imagen, int[][] mascara, int c){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        BufferedImage auxBuffedNuevo = AbrirImagen.toBufferedImage(imagen);
+        int[] len = {((mascara.length-1)/2), ((mascara[0].length-1)/2)}; //posicion de la casilla central de la mascara
+        //System.out.println(len[0] +  " " + len[1]);
+        
+        int ancho = auxBuffed.getWidth();
+        int alto = auxBuffed.getHeight();
+        //System.out.println(ancho +  " " + alto); //348 175
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                    //System.out.println("i: "+ i + "j: " + j);
+                    int sumaR = 0; 
+                    int sumaG = 0; 
+                    int sumaB = 0; 
+                    int[] aux = {i-len[0], j-len[1]};
+                    for(int k=0; k<mascara.length; k++){
+                        for(int p=0; p<mascara[0].length; p++){
+                            //System.out.println("\tk: "+ k + "p: " + p);
+                            int[] pos = {(k + aux[0]), (p + aux[1])}; //posicion en el buffered
+                            //System.out.println("\tpos: " + pos[0] + " " + pos[1]);
+                            if((pos[0]>=0) && (pos[0]<ancho)  && (pos[1]>=0) && (pos[1]<alto)){
+                                //System.out.println("entro");
+                               Color cAux = new Color(auxBuffed.getRGB(pos[0], pos[1]));
+                                sumaR+=(cAux.getRed()*mascara[k][p]); 
+                                sumaG+=(cAux.getGreen()*mascara[k][p]); 
+                                sumaB+=(cAux.getBlue()*mascara[k][p]); 
+                            }
+                            //System.out.println("\tcolor: " + sumaR + " " + sumaG + " " + sumaB);
+                        }
+                    }
+                    //System.out.println("Nuevo color: " + sumaR/c + " " + sumaG/c + " " + sumaB/c);
+                    auxBuffed.setRGB(i, j, new Color(validar(sumaR/c), validar(sumaG/c), validar(sumaB/c)).getRGB());
+            }
+        }
+        return AbrirImagen.toImage(auxBuffed); 
+    }
+
+    /*private static Color aplicarMascara(Color c, int[] mascara, BufferedImage auxBuffed) {
+        
+    }*/
 }

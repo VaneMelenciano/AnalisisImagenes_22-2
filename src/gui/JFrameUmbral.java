@@ -36,8 +36,10 @@ public class JFrameUmbral extends JFrameImagen{
     public void crear(){
         etiqueta1 = new JLabel(new ImageIcon(this.imagen));
         
-        if(seleccion.equals("Umbralizacion")) actualizarImagen();
-        else actualizarImagenBinaria();
+        if(seleccion.equals(seleccion.Umbralizacion))
+            actualizarImagen();
+        else if(seleccion.equals(seleccion.Binarizacion))
+            actualizarImagenBinaria();
         
         JPanel panelCentral1 = new JPanel();
         JPanel panelCentral2 = new JPanel();
