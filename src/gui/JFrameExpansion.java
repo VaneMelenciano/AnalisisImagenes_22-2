@@ -73,12 +73,14 @@ public class JFrameExpansion extends JFrameImagen{
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
+        JMenuItem item14 = new JMenuItem(); //ecualizacion
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
+        item14.setText("Ecualización");
         item21.setText("Lineal");
         item22.setText("Logaritmico");
         item23.setText("Exponencial");
@@ -151,6 +153,11 @@ public class JFrameExpansion extends JFrameImagen{
                 binarizacionMouseClicked(evt, getImagen());
             }
         });
+        item14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ecualizacionMouseClicked(evt);
+            }
+        });
         item21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 expLinMouseClicked(evt, getImagen()); //expansion Lineal
@@ -170,6 +177,7 @@ public class JFrameExpansion extends JFrameImagen{
         menu1.add(item11);
         menu1.add(item12);
         menu1.add(item13);
+        menu1.add(item14);
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);
@@ -213,12 +221,14 @@ public class JFrameExpansion extends JFrameImagen{
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
+        JMenuItem item14 = new JMenuItem(); //ecualizacion
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
+        item14.setText("Ecualización");
         item21.setText("Lineal");
         item22.setText("Logaritmico");
         item23.setText("Exponencial");
@@ -281,6 +291,11 @@ public class JFrameExpansion extends JFrameImagen{
                 binarizacionMouseClicked(evt, getImagen());
             }
         });
+        item14.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ecualizacionMouseClicked(evt);
+            }
+        });
         item21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 expLinMouseClicked(evt, getImagen()); //expansion Lineal
@@ -300,6 +315,7 @@ public class JFrameExpansion extends JFrameImagen{
         menu1.add(item11);
         menu1.add(item12);
         menu1.add(item13);
+        menu1.add(item14);
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);

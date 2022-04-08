@@ -5,9 +5,14 @@
  */
 package herramientas;
 
+import gui.JFrameImagen;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -206,12 +211,6 @@ public class ModificarImagen {
         int aux1 = validar(c.getRed()+valor);
         int aux2 = c.getGreen();
         int aux3 = validar(c.getBlue()-valor);
-        /*int aux1 = c.getRed()+valor, aux2 = c.getGreen(), aux3 = c.getBlue()-valor;
-        aux1 = ((aux1>255) ? 255 : aux1);
-        aux3 = ((aux3>255) ? 255 : aux3);
-        
-        aux1 = ((aux1<0) ? 0 : aux1);
-        aux3 = ((aux3<0) ? 0 : aux3);*/
         return new Color(aux1, aux2, aux3);
     }
     private static Color aFrio(Color c, int valor){
@@ -234,7 +233,9 @@ public class ModificarImagen {
         for(int i=0; i<ancho; i++){
             for(int j=0; j<alto; j++){
                     Color c = new Color(auxBuffed.getRGB(i, j));
-                    int aux = 255/(r2-r1);
+                    int aux;
+                    if(r2==r1) aux = 255/1;
+                    else aux = 255/(r2-r1);
                     int r = validar((c.getRed() - r1) * aux);
                     int g = validar((c.getGreen()-r1)*aux);
                     int b = validar((c.getBlue() - r1)*aux);
@@ -289,48 +290,257 @@ public class ModificarImagen {
         aux1 = ((aux1<=0) ? 0 : aux1);
         return aux1;
     }
-    // int r = (int)((255*Math.log(1+pixel.getRed()))/(Math.log(1+255)));
-    
-    //mascara de convolución
-    public static Image convolucion(Image imagen, int[][] mascara, int c){
-        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
-        BufferedImage auxBuffedNuevo = AbrirImagen.toBufferedImage(imagen);
-        int[] len = {((mascara.length-1)/2), ((mascara[0].length-1)/2)}; //posicion de la casilla central de la mascara
-        //System.out.println(len[0] +  " " + len[1]);
-        
-        int ancho = auxBuffed.getWidth();
-        int alto = auxBuffed.getHeight();
-        //System.out.println(ancho +  " " + alto); //348 175
+    public static BufferedImage convolucion(BufferedImage aux1, int[][] mascara, int c){ //BIEN
+        BufferedImage auxBuffedNuevo = new BufferedImage(aux1.getWidth(), aux1.getHeight(), BufferedImage.TYPE_INT_BGR);//AbrirImagen.toBufferedImage(imagen);
+        int[] centro = {((mascara.length-1)/2), ((mascara[0].length-1)/2)}; //posicion de la casilla central de la mascara
+        int ancho = aux1.getWidth();
+        int alto = aux1.getHeight();
         for(int i=0; i<ancho; i++){
             for(int j=0; j<alto; j++){
-                    //System.out.println("i: "+ i + "j: " + j);
+                    //System.out.println("i: "+ i + "  j: " + j);
                     int sumaR = 0; 
                     int sumaG = 0; 
                     int sumaB = 0; 
-                    int[] aux = {i-len[0], j-len[1]};
-                    for(int k=0; k<mascara.length; k++){
+                    int peso = 0;
+                    boolean bandera = false;
+                    int[] distancia = {j-centro[0], i-centro[1]}; //distancia entre el pixel y casilla central de la mascara
+                    for(int k=0; k<mascara.length; k++){ //recorre mascara
                         for(int p=0; p<mascara[0].length; p++){
-                            //System.out.println("\tk: "+ k + "p: " + p);
-                            int[] pos = {(k + aux[0]), (p + aux[1])}; //posicion en el buffered
-                            //System.out.println("\tpos: " + pos[0] + " " + pos[1]);
+                            int[] pos = {(p + distancia[1]), (k + distancia[0])}; //posicion en el buffered
+                            //System.out.println("\timagen: " + pos[0] + " " + pos[1] + "  mascara: "+k+", "+p);
+                            
                             if((pos[0]>=0) && (pos[0]<ancho)  && (pos[1]>=0) && (pos[1]<alto)){
-                                //System.out.println("entro");
-                               Color cAux = new Color(auxBuffed.getRGB(pos[0], pos[1]));
+                                Color cAux = new Color(aux1.getRGB(pos[0], pos[1]));
                                 sumaR+=(cAux.getRed()*mascara[k][p]); 
                                 sumaG+=(cAux.getGreen()*mascara[k][p]); 
                                 sumaB+=(cAux.getBlue()*mascara[k][p]); 
+                                peso += Math.abs(mascara[k][p]);
+                                bandera = true;
                             }
-                            //System.out.println("\tcolor: " + sumaR + " " + sumaG + " " + sumaB);
                         }
                     }
-                    //System.out.println("Nuevo color: " + sumaR/c + " " + sumaG/c + " " + sumaB/c);
-                    auxBuffed.setRGB(i, j, new Color(validar(sumaR/c), validar(sumaG/c), validar(sumaB/c)).getRGB());
+                    if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validar(sumaR/c), validar(sumaG/c), validar(sumaB/c)).getRGB());
+                    //if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validar(sumaR/peso), validar(sumaG/peso), validar(sumaB/peso)).getRGB());
             }
         }
-        return AbrirImagen.toImage(auxBuffed); 
+        return auxBuffedNuevo;
     }
-
-    /*private static Color aplicarMascara(Color c, int[] mascara, BufferedImage auxBuffed) {
+   
+    public static Image convolucion(Image imagen, int[][] mascara, int c){ //BIEN
+        BufferedImage aux1 = AbrirImagen.toBufferedImage(imagen);
+        BufferedImage auxBuffedNuevo = new BufferedImage(aux1.getWidth(), aux1.getHeight(), BufferedImage.TYPE_INT_BGR);//AbrirImagen.toBufferedImage(imagen);
+        int[] centro = {((mascara.length-1)/2), ((mascara[0].length-1)/2)}; //posicion de la casilla central de la mascara
+        int ancho = aux1.getWidth();
+        int alto = aux1.getHeight();
+        for(int i=0; i<ancho; i++){
+            for(int j=0; j<alto; j++){
+                    //System.out.println("i: "+ i + "  j: " + j);
+                    int sumaR = 0; 
+                    int sumaG = 0; 
+                    int sumaB = 0; 
+                    int peso = 0;
+                    boolean bandera = false;
+                    int[] distancia = {j-centro[0], i-centro[1]}; //distancia entre el pixel y casilla central de la mascara
+                    for(int k=0; k<mascara.length; k++){ //recorre mascara
+                        for(int p=0; p<mascara[0].length; p++){
+                            int[] pos = {(p + distancia[1]), (k + distancia[0])}; //posicion en el buffered
+                            //System.out.println("\timagen: " + pos[0] + " " + pos[1] + "  mascara: "+k+", "+p);
+                            
+                            if((pos[0]>=0) && (pos[0]<ancho)  && (pos[1]>=0) && (pos[1]<alto)){
+                                Color cAux = new Color(aux1.getRGB(pos[0], pos[1]));
+                                sumaR+=(cAux.getRed()*mascara[k][p]); 
+                                sumaG+=(cAux.getGreen()*mascara[k][p]); 
+                                sumaB+=(cAux.getBlue()*mascara[k][p]); 
+                                peso += Math.abs(mascara[k][p]);
+                                bandera = true;
+                            }
+                        }
+                    }
+                    if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validar(sumaR/c), validar(sumaG/c), validar(sumaB/c)).getRGB());
+            }
+        }
+        return auxBuffedNuevo;
+    }
+    
+    public static void convolucion(BufferedImage auxBuffed, int[][][] mascara, int c){
+        //Muestra cada fase de las mascaras independientes
+        for(int i=0; i<mascara.length; i++){
+            System.out.println("i: " + i);
+            int[][] m = mascara[i];
+            BufferedImage auxBuffed1 = convolucion(auxBuffed, m, c);
+            JFrameImagen ji = new JFrameImagen(AbrirImagen.toImage(auxBuffed1)); ji.setTitle(i+" ");
+            try {
+                AbrirImagen.saveImage(auxBuffed1, "Prewitt" + i);
+            } catch (IOException ex) {
+                Logger.getLogger(ModificarImagen.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+    public static Image convolucion(Image imagen, int[][][] mascara, int c){
+        BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
+        for(int i=0; i<2; i++){
+            int[][] m = mascara[i];
+            auxBuffed = convolucion(auxBuffed, m, c);
+            JFrameImagen ji = new JFrameImagen(AbrirImagen.toImage(auxBuffed)); ji.setTitle(i+" ");
+        }
         
-    }*/
+        return AbrirImagen.toImage(auxBuffed);
+    }
+    
+   public static BufferedImage convolucionImagen (BufferedImage imagen, int [][] mascara, int c){
+        for (int[] filaMascara : mascara){
+            if (mascara.length != filaMascara.length){
+                throw new IllegalArgumentException("La mascara debe ser cuadrada");
+            }
+        }
+        final int ancho = imagen.getWidth();
+        final int altura = imagen.getHeight();
+        final BufferedImage imagenResultante = new BufferedImage(ancho, altura, BufferedImage.TYPE_INT_RGB);
+
+        for (int x = 0; x < ancho; ++x){
+            for (int y = 0; y < altura; ++y){
+                //System.out.println("i: "+ x + "  j: " + y);
+                int mX;
+                int mY = y - 2;
+
+                int rojo = 0;
+                int verde = 0;
+                int azul = 0;
+                int peso = 0;
+
+                for (int i = mascara.length - 1; i  >= 0; --i){
+                    final int[] fila = mascara[i];
+                    if (++mY < 0){
+                        continue;
+                    }
+                    mX = x -2;
+                    for (int j = fila.length - 1; j >= 0; --j){
+                        final double element = fila[j];
+                        if (++mX < 0 || mX >= ancho || mY >= altura) {
+                            continue;
+                        }
+                        //System.out.println("\timagen: " + mX + " " + mY + "  mascara: "+i+", "+j);
+                        final int rgb = imagen.getRGB(mX, mY);
+                        final int r = rgb >> 16 & 0xFF;
+                        final int v = rgb >> 8 & 0xFF;
+                        final int a = rgb & 0xFF;
+
+                        rojo += r * element;
+                        verde += v * element;
+                        azul += a * element;
+                        peso += Math.abs(element);
+                    }
+                }
+                rojo /= peso;
+                verde /= peso;
+                azul /= peso;
+
+                rojo = validar (rojo);
+                verde = validar (verde);
+                azul = validar (azul);
+
+                imagenResultante.setRGB(x, y, rojo << 16 | verde << 8 | azul);
+            }
+        } return imagenResultante;
+    }
+    
+    public static Image ecualizacion(Image imagen, int[] R, int[] G, int[] B){
+        BufferedImage bi = AbrirImagen.toBufferedImage(imagen);
+        Color color;
+        //R =
+        //G =
+        //B = 
+        for(int x=0; x<bi.getWidth();x++)
+            for(int y=0; y<bi.getHeight();y++){
+                color = new Color(bi.getRGB(x, y));
+                int r = color.getRed();
+                int g = color.getRed();
+                int b = color.getRed();
+                int r2 =ecualizacion1(imagen, R)[r];
+                int g2 =ecualizacion1(imagen, G)[g];
+                int b2 =ecualizacion1(imagen, B)[b];
+                // 
+                color = new Color(r2,g2,b2);     
+                bi.setRGB(x,y,color.getRGB());
+            }
+        return AbrirImagen.toImage(bi);
+    }
+    private static int[] ecualizacion1(Image imagen, int[] canal){
+        int nxm = imagen.getWidth(null)*imagen.getHeight(null);
+        //Histograma.crear(imagen, "Ecualizar imagen");
+        //int[] ho = Histograma.getR();
+        int[] ho = canal;
+        double[] daf = new double[256];
+        int[] nt = new int[256];
+        daf[0] = (int)ho[0];
+        nt[0] = (int)Math.round((daf[0]/nxm)*255);
+        // recorremos el histograma para acumular
+        for(int x=1; x<ho.length;x++){
+            daf[x] = (int)(ho[x]+daf[x-1]);
+            double aux = daf[x]/nxm;
+            int tmp = (int) Math.round(aux * 255);
+            nt[x] = tmp;
+        }
+        return nt;
+    }
+    
+    public static Image ecualizacion11(Image imagen, int[] canal)/*Original profe*/{
+        int nxm = imagen.getWidth(null)*imagen.getHeight(null);
+        //Histograma.crear(imagen, "Ecualizar imagen");
+        //int[] ho = Histograma.getR();
+        int[] ho = canal;
+        double[] daf = new double[256];
+        int[] nt = new int[256];
+        daf[0] = (int)ho[0];
+        nt[0] = (int)Math.round((daf[0]/nxm)*255);
+        // recorremos el histograma para acumular
+        for(int x=1; x<ho.length;x++){
+            daf[x] = (int)(ho[x]+daf[x-1]);
+            double aux = daf[x]/nxm;
+            int tmp = (int) Math.round(aux * 255);
+            nt[x] = tmp;
+        }
+        BufferedImage bi = AbrirImagen.toBufferedImage(imagen);
+        Color color;
+        for(int x=0; x<bi.getWidth();x++)
+            for(int y=0; y<bi.getHeight();y++){
+                color = new Color(bi.getRGB(x, y));
+                int t = color.getRed();
+                int t2 =nt[t];
+                color = new Color(t2,t2,t2);     
+                bi.setRGB(x,y,color.getRGB());
+            }
+        return AbrirImagen.toImage(bi);
+    }
+    public static Image ecualizacion2(Image imagenOriginal)/*Original profe*/{
+         Histograma.crear(imagenOriginal, "Ecualizar imagen");
+        int[] histograma = Histograma.getR();
+      // calculamos nxm
+      int nxm = imagenOriginal.getHeight(null)*imagenOriginal.getWidth(null);
+      // declaramos el nuevo histograma
+      int[] ecualizacion= new int[256];
+      for(int g=0; g<256;g++){
+          double tmp = 0;
+        for(int i=0; i <=g;i++)
+            tmp+=histograma[i];
+        
+        tmp/=nxm;
+        ecualizacion[g]= (int)Math.round(tmp*255);
+      }
+      // modificamos la imagen 
+        BufferedImage bio = AbrirImagen.toBufferedImage(imagenOriginal);//ImageManager.toBufferedImage(imagenOriginal);
+        BufferedImage nueva = new BufferedImage(imagenOriginal.getWidth(null)
+                                  , imagenOriginal.getHeight(null),BufferedImage.TYPE_INT_RGB);
+        for(int y=0; y<imagenOriginal.getHeight(null);y++)
+            for(int x=0; x<imagenOriginal.getWidth(null);x++){
+             // modificar el tono de la imagen en base al nuevo 
+             // histograma
+             Color color = new Color(bio.getRGB(x, y));
+             int v = ecualizacion[color.getRed()];
+             color = new Color(v, v, v);
+             nueva.setRGB(x, y, color.getRGB());
+            }
+            
+        return AbrirImagen.toImage(nueva);
+    }
 }

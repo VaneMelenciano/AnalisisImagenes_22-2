@@ -39,13 +39,15 @@ public class JFrameMenu extends JFrameImagen{
         JMenuBar opciones = new JMenuBar(); //opciones
         JMenu menu1 = new JMenu(); //modificar imagen
         JMenu menu2 = new JMenu(); //contraste
+        JMenu menu3 = new JMenu(); //Preprocesamiento
         /**/
-        JMenu menu3 = new JMenu(); //histograma
-        JMenu menu4 = new JMenu(); //guardar
+        JMenu menu4 = new JMenu(); //histograma
+        JMenu menu5 = new JMenu(); //guardar
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
         JMenuItem item14 = new JMenuItem(); //negativo
+        JMenuItem item15 = new JMenuItem(); //ecualizacion
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
@@ -53,13 +55,15 @@ public class JFrameMenu extends JFrameImagen{
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
         item14.setText("Negativo");
+        item15.setText("Ecualizacion");
         item21.setText("Lineal");
         item22.setText("Logaritmico");
         item23.setText("Exponencial");
         menu1.setText("Modificar imagen");
         menu2.setText("Contraste");
-        menu4.setText("Guardar");
-        menu3.setText("Histograma");
+        menu3.setText("Preprocesamiento");
+        menu5.setText("Guardar");
+        menu4.setText("Histograma");
         
         item11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -81,6 +85,11 @@ public class JFrameMenu extends JFrameImagen{
                 negativoMouseClicked(evt);
             }
         });
+        item15.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ecualizacionMouseClicked(evt);
+            }
+        });
         item21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 expLinMouseClicked(evt); //expansion Lineal
@@ -98,10 +107,15 @@ public class JFrameMenu extends JFrameImagen{
         });
         menu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                histogramaMouseClicked(evt);
+                proc1MouseClicked(evt);
             }
         });
         menu4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                histogramaMouseClicked(evt);
+            }
+        });
+        menu5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
                     guardarMouseClicked(evt);
@@ -115,6 +129,7 @@ public class JFrameMenu extends JFrameImagen{
         menu1.add(item12);
         menu1.add(item13);
         menu1.add(item14);
+        menu1.add(item15);
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);
@@ -122,8 +137,9 @@ public class JFrameMenu extends JFrameImagen{
         opciones.add(menu2);
         opciones.add(menu3);
         opciones.add(menu4);
+        opciones.add(menu5);
         opciones.setLocation(0, 0);
-        panelCentral.setSize(new Dimension(350,27));
+        panelCentral.setSize(new Dimension(450,27));
         panelCentral.add(opciones);
         add(panelCentral);
         add(etiqueta);

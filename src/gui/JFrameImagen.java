@@ -38,6 +38,7 @@ public class JFrameImagen extends JFrame{
     public Seleccion seleccion;
     //public SeleccionExpansion seleccionExp;
     public JLabel etiqueta1; //etiqueta para panel con umbral
+    public int proc = 1; //para saber en que paso del preprocesamiento vamos
 
     public JFrameImagen(Image imagen){                                    
         this.imagenOriginal = imagen;
@@ -46,11 +47,26 @@ public class JFrameImagen extends JFrame{
         this.umbral2=255;
         crear();
     }
+    public JFrameImagen(Image imagen, int p){                                    
+        this.imagenOriginal = imagen;
+        this.imagen = imagen;
+        this.umbral1=0;
+        this.umbral2=255;
+        this.proc=p;
+        crear();
+    }
     public JFrameImagen(Seleccion seleccion, Image imagen, int v1, int v2){                                    
         this.imagenOriginal = imagen;
         this.imagen = imagen;
         this.umbral1=v1; this.umbral2=v2;
         this.seleccion = seleccion;
+        crear();  
+    }
+    public JFrameImagen(Image imagen, int v1, int v2, int p){                                    
+        this.imagenOriginal = imagen;
+        this.imagen = imagen;
+        this.umbral1=v1; this.umbral2=v2;
+        this.proc=p;
         crear();  
     }
     /*public JFrameImagen(SeleccionExpansion seleccion, Image imagen, int v1, int v2){                                    
@@ -106,8 +122,38 @@ public class JFrameImagen extends JFrame{
     public void guardarMouseClicked(MouseEvent evt) throws IOException {
         AbrirImagen.saveImage(AbrirImagen.toBufferedImage(this.imagen));
     }
+    public void guardarMouseClicked(MouseEvent evt, String name) throws IOException {
+        AbrirImagen.saveImage(AbrirImagen.toBufferedImage(this.imagen), name);
+    }
     public void histogramaMouseClicked(MouseEvent evt) {
        Histograma.crear(this.imagen);
+    }
+    public void proc1MouseClicked(MouseEvent evt) {
+       Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
+       JFramePreproce auxResultante = new JFramePreproce(imagenResultante, 1);
+       auxResultante.setTitle("Imagen en escala de grises, preprocesamiento parte 1");
+    }
+    public void proc2MouseClicked(MouseEvent evt) {
+        Image imagenResultante = ModificarImagen.expansionLinal(this.imagenOriginal, this.umbral1, this.umbral2);
+        JFramePreproce auxResultante = new JFramePreproce(imagenResultante, this.umbral1, this.umbral2, 2);
+        auxResultante.setTitle("Expansión Lineal, preprocesamiento parte 2");
+    }
+    public void proc2MouseClickedEcualizacion(MouseEvent evt) {
+        Histograma.crearCanales(this.imagenOriginal);
+        Image nueva = ModificarImagen.ecualizacion(this.imagenOriginal, Histograma.getR(), Histograma.getG(), Histograma.getB());
+        JFramePreproce auxResultante = new JFramePreproce(nueva, 2);
+        auxResultante.setTitle("Ecualización, preprocesamiento parte 2");
+    }
+    public void proc3MouseClicked(MouseEvent evt, Image imagen) {
+        int[] canal = Histograma.crearBN(imagen);
+        double[] nuevo = new double[canal.length];
+        for(int i=0; i<canal.length; i++){
+            nuevo[i] = canal[i];
+        }
+        int j= UmbralAutomatico.metodoIterativo(nuevo);
+        
+        JFramePreproce auxResultante = new JFramePreproce(imagen, j, 255, 3);
+        auxResultante.setTitle("Imagen binaria, preprocesamiento última fase");
     }
     public void histogramaMouseClicked(ActionEvent e) {
        Histograma.crear(this.imagen);
@@ -174,6 +220,20 @@ public class JFrameImagen extends JFrame{
         JFrameUmbral auxResultante = new JFrameUmbral(Seleccion.Binarizacion, imagenResultante, 0, 255);
         auxResultante.setTitle("Imagen binaria");
     }
+    //ecualizacionMouseClicked(evt)
+    public void ecualizacionMouseClicked(java.awt.event.ActionEvent evt) {
+        Histograma.crearCanales(this.imagenOriginal);
+        Image nueva = ModificarImagen.ecualizacion(this.imagenOriginal, Histograma.getR(), Histograma.getG(), Histograma.getB());
+        JFrameMenu auxResultante = new JFrameMenu(nueva);
+        auxResultante.setTitle("Ecualizar imagen");
+    }
+    public void ecualizacionMouseClicked(java.awt.event.ActionEvent evt, Image imagen) {
+        Histograma.crearCanales(imagen);
+        Image nueva = ModificarImagen.ecualizacion(imagen, Histograma.getR(), Histograma.getG(), Histograma.getB());
+        JFrameMenu auxResultante = new JFrameMenu(nueva);
+        auxResultante.setTitle("Ecualizar imagen");
+    }
+    
     public void expExpMouseClicked(ActionEvent evt) { //expansion Exponencial
         double z = 0.5;
         Image imagenResultante = ModificarImagen.expansionExp(this.imagenOriginal, z);
@@ -188,9 +248,7 @@ public class JFrameImagen extends JFrame{
         auxResultante.setTitle("Expansión exponencial");
     }
     public void expLinMouseClicked(ActionEvent evt) { //expansion Lineal
-        System.out.println("Entro 1");
         Image imagenResultante = ModificarImagen.expansionLinal(this.imagenOriginal, this.umbral1, this.umbral2);
-        System.out.println("Retorno");
         JFrameExpansion auxResultante = new JFrameExpansion(Seleccion.Lineal, imagenResultante, this.umbral1, this.umbral2);
         auxResultante.setTitle("Expansión Lineal");
     }
@@ -221,6 +279,11 @@ public class JFrameImagen extends JFrame{
     }
     public void actualizarImagenBinaria() {
         Image imagenNueva = ModificarImagen.convertirBinaria(this.imagenOriginal, this.umbral1, this.umbral2);
+        this.imagen = imagenNueva;
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizarImagenIluminacion() {
+        Image imagenNueva = ModificarImagen.modificarIluminacion(this.imagenOriginal, this.umbral1);
         this.imagen = imagenNueva;
         etiqueta1.setIcon(new ImageIcon(this.imagen));
     }

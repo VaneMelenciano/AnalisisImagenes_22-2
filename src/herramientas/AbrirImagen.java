@@ -84,5 +84,15 @@ public class AbrirImagen{
         File outputfile = new File(".././Pruebas/" + name + ".png");
         ImageIO.write(imagen, "png", outputfile);
     }
+    public static void saveImage(BufferedImage imagen, String nombre) throws IOException{
+        SimpleDateFormat ff1 = new SimpleDateFormat("ss-mm-hh");
+        SimpleDateFormat ff2 = new SimpleDateFormat("dd-MM-yyyy");
+        Date d = new Date();
+        String time1 = ff1.format(d);
+        String time2 = ff2.format(d);
+        String name = nombre + "_" + time1 + "_" +time2;
+        File outputfile = new File(".././Pruebas/" + name + ".png");
+        ImageIO.write(imagen, "png", outputfile);
+    }
     
 }

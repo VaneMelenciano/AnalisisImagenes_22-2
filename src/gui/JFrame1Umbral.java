@@ -5,12 +5,8 @@
  */
 package gui;
 
-import herramientas.ModificarImagen;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Menu;
-import java.awt.MenuBar;
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,18 +24,13 @@ import javax.swing.event.ChangeListener;
  *
  * @author Vanessa
  */
-public class JFrameUmbral extends JFrameImagen{
-    public JFrameUmbral(Seleccion seleccion, Image imagen, int val1, int val2){
-        super(seleccion, imagen, val1, val2);
+public class JFrame1Umbral extends JFrameImagen{
+    public JFrame1Umbral(Seleccion seleccion, Image imagen, int val){
+        super(seleccion, imagen, val);
     }
     
     public void crear(){
         etiqueta1 = new JLabel(new ImageIcon(this.imagen));
-        
-        if(seleccion.equals(seleccion.Umbralizacion))
-            actualizarImagen();
-        else if(seleccion.equals(seleccion.Binarizacion))
-            actualizarImagenBinaria();
         
         JPanel panelCentral1 = new JPanel();
         JPanel panelCentral2 = new JPanel();
@@ -52,14 +43,14 @@ public class JFrameUmbral extends JFrameImagen{
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
-        JMenuItem item14 = new JMenuItem(); //ecualizacion
+        JMenuItem item14 = new JMenuItem(); //Iluminación
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
-        item14.setText("Ecualización");
+        item14.setText("Iluminación");
         item21.setText("Lineal");
         item22.setText("Logaritmico");
         item23.setText("Exponencial");
@@ -68,18 +59,12 @@ public class JFrameUmbral extends JFrameImagen{
         menu4.setText("Guardar");
         menu3.setText("Histograma");
         JSlider slider1 = new JSlider(0,255,this.umbral1);
-        JSlider slider2 = new JSlider(0,255,this.umbral2);
         slider1.setMajorTickSpacing(50);
         slider1.setMinorTickSpacing(10);
         slider1.setPaintLabels(true);
         slider1.setPaintTicks(true);
-        slider2.setMajorTickSpacing(50);
-        slider2.setMinorTickSpacing(10);
-        slider2.setPaintLabels(true);
-        slider2.setPaintTicks(true);
         JLabel txtValor1 = new JLabel(this.umbral1<10 ? "00"+String.valueOf(this.umbral1) : this.umbral1<100 ? "0"+String.valueOf(this.umbral1) : String.valueOf(this.umbral1));
-        JLabel txtValor2 = new JLabel(this.umbral2<10 ? "00"+String.valueOf(this.umbral2) : this.umbral2<100 ? "0"+String.valueOf(this.umbral2) : String.valueOf(this.umbral2));
-        
+
         slider1.addChangeListener( new ChangeListener() {
             public void stateChanged( ChangeEvent evt ) {
               slider1.setValue(slider1.getValue() );
@@ -87,19 +72,7 @@ public class JFrameUmbral extends JFrameImagen{
               String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
               txtValor1.setText(b1);
                 umbral1 = valor;
-                if(seleccion.equals("Umbralizacion")) actualizarImagen();
-                else actualizarImagenBinaria();
-            }
-          } );
-        slider2.addChangeListener( new ChangeListener() {
-            public void stateChanged( ChangeEvent evt ) {
-              slider2.setValue(slider2.getValue());
-              int valor=slider2.getValue();
-              String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
-              txtValor2.setText(b1);
-              umbral2 = valor;
-                if(seleccion.equals("Umbralizacion")) actualizarImagen();
-                else actualizarImagenBinaria();
+                actualizarImagenIluminacion();
             }
           } );
         
@@ -133,11 +106,7 @@ public class JFrameUmbral extends JFrameImagen{
                 binarizacionMouseClicked(evt, getImagen());
             }
         });
-        item14.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ecualizacionMouseClicked(evt, getImagen());
-            }
-        });
+        
         item21.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 expLinMouseClicked(evt); //expansion Lineal
@@ -157,7 +126,6 @@ public class JFrameUmbral extends JFrameImagen{
         menu1.add(item11);
         menu1.add(item12);
         menu1.add(item13);
-        menu1.add(item14);
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);
@@ -172,8 +140,6 @@ public class JFrameUmbral extends JFrameImagen{
         
         panelCentral2.add(slider1);
         panelCentral2.add(txtValor1);
-        panelCentral2.add(slider2);
-        panelCentral2.add(txtValor2);
         
         panelCentral2.setSize(new Dimension(480,56));
         panelCentral2.setLocation(0, 30);
@@ -193,3 +159,4 @@ public class JFrameUmbral extends JFrameImagen{
         setMenuBar(menuBar);*/
     }
 }
+
