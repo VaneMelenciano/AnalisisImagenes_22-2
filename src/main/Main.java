@@ -17,6 +17,7 @@ import herramientas.UmbralAutomatico;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import static java.lang.Math.round;
 import java.util.Formatter;
 import static java.lang.String.valueOf;
 import java.util.Arrays;
@@ -102,7 +103,8 @@ public class Main {
         JFrameMenu nueva = new JFrameMenu(imagen1); nueva.setTitle("s1");
         Image imagen11 = ModificarImagen.convolucion(imagen, Mascara.prewitt2, 9);
         JFrameMenu nueva1 = new JFrameMenu(imagen11); nueva1.setTitle("s2");*/
-        ModificarImagen.convolucion(imagen, Mascara.kirsch, (int) 7);
+        ModificarImagen.convolucion(imagen, Mascara.kirsch, 15);
+        //ModificarImagen.convolucion(imagen, Mascara.freichen1, 1/(2+round((float) Math.sqrt(2))));
 //        //original.JFrameMenu();
 //        Image nuevaImagen1 = ModificarImagen.convertirBinaria(ModificarImagen.convertirEscalaGrises(imagen), 0, 255);
 //        JFrameImagen nueva = new JFrameImagen(nuevaImagen1);

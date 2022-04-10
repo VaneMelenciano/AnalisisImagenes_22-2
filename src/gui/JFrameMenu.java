@@ -144,8 +144,8 @@ public class JFrameMenu extends JFrameImagen{
         add(panelCentral);
         add(etiqueta);
         //add(opciones);
-        int n = (this.imagen.getWidth(null)<350) ? 350:this.imagen.getWidth(null);
-        setSize(new Dimension(n, this.imagen.getWidth(null)+30));
+        int n = (this.imagen.getWidth(null)<350) ? 350:this.imagen.getWidth(null)+100;
+        setSize(new Dimension(n, this.imagen.getHeight(null)+100));
         setVisible(rootPaneCheckingEnabled);
     }
 }

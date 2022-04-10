@@ -5,11 +5,15 @@
  */
 package herramientas;
 
+import static java.lang.Math.round;
+
 /**
  *
  * @author Vanessa
  */
 //https://programmerclick.com/article/5690865983/
+//http://support.ptc.com/help/mathcad/es/index.html#page/PTC_Mathcad_Help/example_convolution_edge_finders.html
+
 //Mascaras para coonvolucion
 
 public class Mascara {
@@ -37,6 +41,12 @@ public class Mascara {
     public static int[][] prewitt2 = {{1, 1, 1}, {0, 0, 0}, {-1,-1,-1}};
     public static int[][][] prewitt = {prewitt1, prewitt2};
     
+    public static int[][] freichen1 = {{1,0,-1},
+                            {round((float) Math.sqrt(2)),0,round((float) (Math.sqrt(2)*(-1)))},
+                            {1,0,-1}};
+    public static int[][] freichen2 = {{-1,round((float) (Math.sqrt(2)*(-1))),-1},
+                            {0,0,0},
+                            {1,round((float) Math.sqrt(2)),1}};
     //EFECTOS
     public static int[][] repujado = {{-2, -1, 0}, {-1,1,1},{0,1,2}}; //repujado
     
@@ -55,4 +65,9 @@ public class Mascara {
     public static int[][] alivio={{-1,-1,0},
                             {-1,0,1},
                             {0,1,1}};
+    
+    //QUITAR RUIDO
+    public static int[][] quitarRuido1 = {{0,1,0}, //funciona dividiendo de 70 para arriba
+                                        {1,0,1},
+                                        {0,1,0}};
 }

@@ -226,6 +226,7 @@ public class ModificarImagen {
         aux3 = ((aux3<=0) ? 0 : aux3);*/
         return new Color(aux1, aux2, aux3);
     }
+    
     public static Image expansionLinal(Image imagen, int r1, int r2){
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
         int ancho = auxBuffed.getWidth();
@@ -290,6 +291,7 @@ public class ModificarImagen {
         aux1 = ((aux1<=0) ? 0 : aux1);
         return aux1;
     }
+    
     public static BufferedImage convolucion(BufferedImage aux1, int[][] mascara, int c){ //BIEN
         BufferedImage auxBuffedNuevo = new BufferedImage(aux1.getWidth(), aux1.getHeight(), BufferedImage.TYPE_INT_BGR);//AbrirImagen.toBufferedImage(imagen);
         int[] centro = {((mascara.length-1)/2), ((mascara[0].length-1)/2)}; //posicion de la casilla central de la mascara
@@ -325,7 +327,6 @@ public class ModificarImagen {
         }
         return auxBuffedNuevo;
     }
-   
     public static Image convolucion(Image imagen, int[][] mascara, int c){ //BIEN
         BufferedImage aux1 = AbrirImagen.toBufferedImage(imagen);
         BufferedImage auxBuffedNuevo = new BufferedImage(aux1.getWidth(), aux1.getHeight(), BufferedImage.TYPE_INT_BGR);//AbrirImagen.toBufferedImage(imagen);
@@ -376,9 +377,10 @@ public class ModificarImagen {
             }
         }
     }
+    
     public static Image convolucion(Image imagen, int[][][] mascara, int c){
         BufferedImage auxBuffed = AbrirImagen.toBufferedImage(imagen);
-        for(int i=0; i<2; i++){
+        for(int i=0; i<mascara.length; i++){
             int[][] m = mascara[i];
             auxBuffed = convolucion(auxBuffed, m, c);
             JFrameImagen ji = new JFrameImagen(AbrirImagen.toImage(auxBuffed)); ji.setTitle(i+" ");
@@ -387,63 +389,7 @@ public class ModificarImagen {
         return AbrirImagen.toImage(auxBuffed);
     }
     
-   public static BufferedImage convolucionImagen (BufferedImage imagen, int [][] mascara, int c){
-        for (int[] filaMascara : mascara){
-            if (mascara.length != filaMascara.length){
-                throw new IllegalArgumentException("La mascara debe ser cuadrada");
-            }
-        }
-        final int ancho = imagen.getWidth();
-        final int altura = imagen.getHeight();
-        final BufferedImage imagenResultante = new BufferedImage(ancho, altura, BufferedImage.TYPE_INT_RGB);
-
-        for (int x = 0; x < ancho; ++x){
-            for (int y = 0; y < altura; ++y){
-                //System.out.println("i: "+ x + "  j: " + y);
-                int mX;
-                int mY = y - 2;
-
-                int rojo = 0;
-                int verde = 0;
-                int azul = 0;
-                int peso = 0;
-
-                for (int i = mascara.length - 1; i  >= 0; --i){
-                    final int[] fila = mascara[i];
-                    if (++mY < 0){
-                        continue;
-                    }
-                    mX = x -2;
-                    for (int j = fila.length - 1; j >= 0; --j){
-                        final double element = fila[j];
-                        if (++mX < 0 || mX >= ancho || mY >= altura) {
-                            continue;
-                        }
-                        //System.out.println("\timagen: " + mX + " " + mY + "  mascara: "+i+", "+j);
-                        final int rgb = imagen.getRGB(mX, mY);
-                        final int r = rgb >> 16 & 0xFF;
-                        final int v = rgb >> 8 & 0xFF;
-                        final int a = rgb & 0xFF;
-
-                        rojo += r * element;
-                        verde += v * element;
-                        azul += a * element;
-                        peso += Math.abs(element);
-                    }
-                }
-                rojo /= peso;
-                verde /= peso;
-                azul /= peso;
-
-                rojo = validar (rojo);
-                verde = validar (verde);
-                azul = validar (azul);
-
-                imagenResultante.setRGB(x, y, rojo << 16 | verde << 8 | azul);
-            }
-        } return imagenResultante;
-    }
-    
+  
     public static Image ecualizacion(Image imagen, int[] R, int[] G, int[] B){
         BufferedImage bi = AbrirImagen.toBufferedImage(imagen);
         Color color;
