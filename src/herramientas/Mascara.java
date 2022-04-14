@@ -67,7 +67,10 @@ public class Mascara {
                             {0,1,1}};
     
     //QUITAR RUIDO
-    public static int[][] quitarRuido1 = {{0,1,0}, //funciona dividiendo de 70 para arriba
-                                        {1,0,1},
+    public static int[][] quitarRuido1 = {{0,1,0}, //funciona dividiendo de 70 para arriba para fondos negros
+                                        {1,0,1},   //funciona dividiendo de 2 para abajo para fondos blancos
                                         {0,1,0}};
+    public static int[][] quitarRuido2 = {{1,1,1}, //funciona dividiendo de 70 para arriba para fondos negros
+                                        {1,0,1},   //funciona dividiendo de 2 para abajo para fondos blancos
+                                        {1,1,1}};
 }

@@ -49,4 +49,33 @@ public class ImagenRuido {
     public static boolean ruido(double prob) {
         return Math.random()<=prob;
     }
+    public static Image crearImagen(int n, float porcentaje){ //agregar ruido a una imagen leida
+        BufferedImage bi = AbrirImagen.toBufferedImage(AbrirImagen.openImage());
+        //BufferedImage bi = new BufferedImage(ancho, alto, TYPE_BYTE_GRAY);
+        int blanco = new Color(255, 255, 255).getRGB();
+        int negro = new Color(0, 0, 0).getRGB();
+        //int cantidad = (int) ((ancho*alto)*porcentaje); //cantidad de pixeles con ruido
+        int ancho = bi.getWidth();
+        int alto = bi.getHeight();
+        
+        if(n==1){ //fondo negro
+           for(int i=0; i<ancho; i++){
+                for(int j=0; j<alto; j++){ 
+                    if(ruido(porcentaje)){
+                       bi.setRGB(i, j, blanco); 
+                    }
+                }
+            } 
+        }else{ // fondo blanco
+            for(int i=0; i<ancho; i++){
+                for(int j=0; j<alto; j++){ 
+                    if(ruido(porcentaje)){
+                       bi.setRGB(i, j, negro); 
+                    }
+                }
+            }
+        }
+        
+        return AbrirImagen.toImage(bi);
+    }
 }
