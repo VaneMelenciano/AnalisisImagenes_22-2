@@ -68,7 +68,7 @@ public class JFrameExpansion extends JFrameImagen{
         JMenuBar opciones = new JMenuBar(); //opciones
         JMenu menu1 = new JMenu(); //modificar imagen
         JMenu menu2 = new JMenu(); //contraste
-        JMenu menu3 = new JMenu(); //histograma
+        JMenu menu3 = new JMenu(); //mostrar
         JMenu menu4 = new JMenu(); //guardar
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
@@ -77,14 +77,18 @@ public class JFrameExpansion extends JFrameImagen{
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
+        JMenuItem item41 = new JMenuItem(); //histograma
+        JMenuItem item42 = new JMenuItem(); //espectro de frecuencia
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
         item14.setText("Ecualización");
         item21.setText("Lineal");
         item22.setText("Logaritmico");
+        item41.setText("Histograma");
+        item42.setText("Espectro de frecuencias");
         item23.setText("Exponencial");
-        menu1.setText("Modificar imagen");
+        menu1.setText("Modificar");
         menu2.setText("Contraste");
         menu4.setText("Guardar");
         menu3.setText("Histograma");
@@ -124,9 +128,15 @@ public class JFrameExpansion extends JFrameImagen{
             }
           } );
         
-        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                histogramaMouseClicked(evt);
+        item41.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 histogramaMouseClicked(evt); //histograma
+            }
+        });
+        item42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                espectroFrecienciasMouseClicked(evt); //espectro de frecuencias
             }
         });
         menu4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -181,6 +191,8 @@ public class JFrameExpansion extends JFrameImagen{
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);
+        menu4.add(item41);
+        menu4.add(item42);
         opciones.add(menu1);
         opciones.add(menu2);
         opciones.add(menu3);

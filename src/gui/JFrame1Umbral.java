@@ -25,10 +25,14 @@ import javax.swing.event.ChangeListener;
  * @author Vanessa
  */
 public class JFrame1Umbral extends JFrameImagen{
+    public JFrame1Umbral(Seleccion seleccion, Image imagen, Image imagenOriginal, int val){
+        super(seleccion, imagen, imagenOriginal, val);
+    }
     public JFrame1Umbral(Seleccion seleccion, Image imagen, int val){
         super(seleccion, imagen, val);
     }
     
+    @Override
     public void crear(){
         etiqueta1 = new JLabel(new ImageIcon(this.imagen));
         
@@ -38,8 +42,9 @@ public class JFrame1Umbral extends JFrameImagen{
         JMenu menu1 = new JMenu(); //modificar imagen
         JMenu menu2 = new JMenu(); //contraste
         /**/
-        JMenu menu3 = new JMenu(); //histograma
+        JMenu menu3 = new JMenu(); //mostrar
         JMenu menu4 = new JMenu(); //guardar
+        //JMenu menu5 = new JMenu(); //filtros
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
@@ -47,6 +52,8 @@ public class JFrame1Umbral extends JFrameImagen{
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
+        JMenuItem item31 = new JMenuItem(); //histograma
+        JMenuItem item32 = new JMenuItem(); //espectro de frecuencia
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
@@ -54,13 +61,16 @@ public class JFrame1Umbral extends JFrameImagen{
         item21.setText("Lineal");
         item22.setText("Logaritmico");
         item23.setText("Exponencial");
-        menu1.setText("Modificar imagen");
+        item31.setText("Histograma");
+        item32.setText("Espectro de frecuencias");
+        menu1.setText("Modificar");
         menu2.setText("Contraste");
         menu4.setText("Guardar");
-        menu3.setText("Histograma");
-        JSlider slider1 = new JSlider(0,255,this.umbral1);
-        slider1.setMajorTickSpacing(50);
-        slider1.setMinorTickSpacing(10);
+        menu3.setText("Mostrar");
+        int sliderMax = ((seleccion == Seleccion.PasaAltas || seleccion == Seleccion.PasaBajas)? 130 : 255);
+        JSlider slider1 = new JSlider(0,sliderMax,this.umbral1);
+        slider1.setMajorTickSpacing((seleccion == Seleccion.PasaAltas || seleccion == Seleccion.PasaBajas)? 25 : 50);
+        slider1.setMinorTickSpacing((seleccion == Seleccion.PasaAltas || seleccion == Seleccion.PasaBajas)? 5 : 10);
         slider1.setPaintLabels(true);
         slider1.setPaintTicks(true);
         JLabel txtValor1 = new JLabel(this.umbral1<10 ? "00"+String.valueOf(this.umbral1) : this.umbral1<100 ? "0"+String.valueOf(this.umbral1) : String.valueOf(this.umbral1));
@@ -72,14 +82,22 @@ public class JFrame1Umbral extends JFrameImagen{
               String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
               txtValor1.setText(b1);
                 umbral1 = valor;
-                actualizarImagenIluminacion();
+                    if(seleccion == Seleccion.PasaAltas) actualizarImagenPasaAltas();
+                    else if(seleccion == Seleccion.PasaBajas) actualizarImagenPasaBajas();
+                    else actualizarImagenIluminacion();
             }
           } );
         
         
-        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                histogramaMouseClicked(evt);
+        item31.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 histogramaMouseClicked(evt); //histograma
+            }
+        });
+        item32.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                espectroFrecienciasMouseClicked(evt, imagen); //espectro de frecuencias
             }
         });
         menu4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -129,6 +147,8 @@ public class JFrame1Umbral extends JFrameImagen{
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);
+        menu3.add(item31);
+        menu3.add(item32);
         opciones.add(menu1);
         opciones.add(menu2);
         opciones.add(menu3);

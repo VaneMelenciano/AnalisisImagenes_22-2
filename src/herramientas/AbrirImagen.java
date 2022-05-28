@@ -30,6 +30,7 @@ public class AbrirImagen{
                     new FileNameExtensionFilter("Imagenes","jpg","jpeg","png","bmp");
             // crear un selector de archivos
             JFileChooser selector = new JFileChooser();
+            selector.setCurrentDirectory(new File(".././Pruebas"));
             // agregar el filtro al selector
             selector.addChoosableFileFilter(filtro);
             // especificar que solo se puedan abrir archivos

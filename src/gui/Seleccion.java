@@ -9,5 +9,5 @@ package gui;
  *
  * @author Vanessa
  */
-public enum Seleccion {Umbralizacion, Binarizacion, Lineal, Exponencial, Logaritmica
+public enum Seleccion {Umbralizacion, Binarizacion, Lineal, Exponencial, Logaritmica, PasaAltas, PasaBajas
 }

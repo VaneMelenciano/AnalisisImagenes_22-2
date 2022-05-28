@@ -29,9 +29,12 @@ import java.util.Arrays;
 public class Main {
     public static void main(String[] args){
         //Imagen RGB a escala de grises
-        /*Image imagenOriginal = AbrirImagen.openImage();
-        JFrameImagen original = new JFrameImagen(imagenOriginal);
-        Image imagenResultante = ModificarImagen.convertirEscalaGrises(imagenOriginal);
+        Image imagenOriginal = AbrirImagen.openImage();
+        JFrameMenu original = new JFrameMenu(imagenOriginal);
+        //JFrameMenu original = new JFrameMenu(imagenOriginal);
+        
+        
+        /*Image imagenResultante = ModificarImagen.convertirEscalaGrises(imagenOriginal);
         JFrameImagen auxResultante = new JFrameImagen(imagenResultante);
         auxResultante.JFrameMenu();*/
         
@@ -92,18 +95,18 @@ public class Main {
         int[][] m2 = {{1, 1, 1}, {0, 0, 0}, {-1,-1,-1}};
         int[][][] arregloMascaras = {m1, m2};*/
        //Extensión de los operadores
-        int [][] m = {{-1, -1, -1, -2, -1, -1, -1}, {-1, -1, -1, -2, -1, -1, -1}, {-1, -1, -1, -2, -1, -1, -1}, {0,0,0,0,0,0,0}, {1, 1, 1, 2, 1, 1, 1}, {1, 1, 1, 2, 1, 1, 1}, {1, 1, 1, 2, 1, 1, 1}};
+        //int [][] m = {{-1, -1, -1, -2, -1, -1, -1}, {-1, -1, -1, -2, -1, -1, -1}, {-1, -1, -1, -2, -1, -1, -1}, {0,0,0,0,0,0,0}, {1, 1, 1, 2, 1, 1, 1}, {1, 1, 1, 2, 1, 1, 1}, {1, 1, 1, 2, 1, 1, 1}};
        //Enfoque
        //int[][] m = {{-2, -1, 0}, {-1,1,1},{0,1,2}}; //repujado
-       Image imagen = AbrirImagen.openImage();
-        JFrameMenu original = new JFrameMenu(imagen); original.setTitle("Original");
+       //Image imagen = AbrirImagen.openImage();
+        //JFrameMenu original = new JFrameMenu(imagen); original.setTitle("Original");
         //ModificarImagen.convolucion(imagen, arregloMascaras, 9);
         //ModificarImagen.convolucion(AbrirImagen.toBufferedImage(imagen), arregloMascaras, 9);
         /*Image imagen1 = ModificarImagen.convolucion(imagen, Mascara.prewitt1, 9);
         JFrameMenu nueva = new JFrameMenu(imagen1); nueva.setTitle("s1");
         Image imagen11 = ModificarImagen.convolucion(imagen, Mascara.prewitt2, 9);
         JFrameMenu nueva1 = new JFrameMenu(imagen11); nueva1.setTitle("s2");*/
-        ModificarImagen.convolucion(imagen, Mascara.kirsch, 15);
+        //ModificarImagen.convolucion(imagen, Mascara.kirsch, 15);
         //ModificarImagen.convolucion(imagen, Mascara.freichen1, 1/(2+round((float) Math.sqrt(2))));
 //        //original.JFrameMenu();
 //        Image nuevaImagen1 = ModificarImagen.convertirBinaria(ModificarImagen.convertirEscalaGrises(imagen), 0, 255);

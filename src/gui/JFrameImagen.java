@@ -1,5 +1,9 @@
 package gui;
 
+import FFT.Gestor;
+import FFT.NumeroComplejo;
+import Filtros.FiltroIdealPasaAltas;
+import Filtros.FiltroIdealPasaBajas;
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
 import herramientas.ModificarImagen;
@@ -12,6 +16,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -83,6 +88,13 @@ public class JFrameImagen extends JFrame{
         this.seleccion = seleccionExp;
         crear();  
     }
+    public JFrameImagen(Seleccion seleccionExp, Image imagen, Image original, int v1){                                    
+        this.imagenOriginal = original;
+        this.imagen = imagen;
+        this.umbral1=v1;
+        this.seleccion = seleccionExp;
+        crear();  
+    }
     public JFrameImagen(Seleccion seleccionExp, Image imagen, double v1){                                    
         this.imagenOriginal = imagen;
         this.imagen = imagen;
@@ -128,12 +140,12 @@ public class JFrameImagen extends JFrame{
     public void histogramaMouseClicked(MouseEvent evt) {
        Histograma.crear(this.imagen);
     }
-    public void proc1MouseClicked(MouseEvent evt) {
+    public void preprocesamiento1MouseClicked(MouseEvent evt) {
        Image imagenResultante = ModificarImagen.convertirEscalaGrises(this.imagen);
        JFramePreproce auxResultante = new JFramePreproce(imagenResultante, 1);
        auxResultante.setTitle("Imagen en escala de grises, preprocesamiento parte 1");
     }
-    public void proc2MouseClicked(MouseEvent evt) {
+    public void preprocesamiento2MouseClicked(MouseEvent evt) {
         Image imagenResultante = ModificarImagen.expansionLinal(this.imagenOriginal, this.umbral1, this.umbral2);
         JFramePreproce auxResultante = new JFramePreproce(imagenResultante, this.umbral1, this.umbral2, 2);
         auxResultante.setTitle("Expansión Lineal, preprocesamiento parte 2");
@@ -144,7 +156,7 @@ public class JFrameImagen extends JFrame{
         JFramePreproce auxResultante = new JFramePreproce(nueva, 2);
         auxResultante.setTitle("Ecualización, preprocesamiento parte 2");
     }
-    public void proc3MouseClicked(MouseEvent evt, Image imagen) {
+    public void preprocesamiento3MouseClicked(MouseEvent evt, Image imagen) {
         int[] canal = Histograma.crearBN(imagen);
         double[] nuevo = new double[canal.length];
         for(int i=0; i<canal.length; i++){
@@ -271,6 +283,99 @@ public class JFrameImagen extends JFrame{
         auxResultante.setTitle("Expansión Logaritmica");
     }
     
+    public void espectroFrecienciasMouseClicked(ActionEvent evt) {
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(this.imagenOriginal));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        JFrameMenu jm = new JFrameMenu(AbrirImagen.toImage(iFre));
+        jm.setTitle("Espectro de frecuencias");
+         //Image imagenResultante =       
+    }
+     public void espectroFrecienciasMouseClicked(ActionEvent evt, Image imagen) {
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(imagen));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        JFrameMenu jm = new JFrameMenu(AbrirImagen.toImage(iFre));
+        jm.setTitle("Espectro de frecuencias");
+         //Image imagenResultante =       
+    }
+    
+    public void filtroPasaBajasMouseClicked(ActionEvent evt) {
+        System.out.println("1");
+        /**/
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(this.imagenOriginal));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        
+        FiltroIdealPasaBajas fipb = new FiltroIdealPasaBajas(this.umbral1,new Dimension(256, 256));
+        /**
+        System.out.println(this.umbral1);
+        
+        JFrameMenu frame2 = new JFrameMenu(AbrirImagen.toImage(iFre)); //Frecuancias de original
+        frame2.setTitle("Espectro de frecuencia original");
+     **/
+        fipb.crearFiltro();
+        NumeroComplejo[][] filtro = fipb.getFiltroEspacial();
+        /***
+       JFrameMenu frameFil = new JFrameMenu(fipb.getImagen()); //Filtrado
+        frameFil.setTitle("filtrado");
+       **/
+        gestor.aplicarFiltro(filtro);
+        
+        BufferedImage imagenEspacial = gestor.obtenerImagenEspacial();
+        JFrame1Umbral jm = new JFrame1Umbral(Seleccion.PasaBajas, AbrirImagen.toImage(imagenEspacial), imagenOriginal, this.umbral1);
+        jm.setTitle("Filtro pasa bajas");      
+    }
+    
+    
+     public void filtroPasaAltasMouseClicked(ActionEvent evt) {
+         /**/
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(this.imagenOriginal));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        
+        FiltroIdealPasaAltas fipb = new FiltroIdealPasaAltas(this.umbral1,new Dimension(256, 256));
+        
+        fipb.crearFiltro();
+        NumeroComplejo[][] filtro = fipb.getFiltroEspacial();
+       
+        gestor.aplicarFiltro(filtro);
+        
+        BufferedImage imagenEspacial = gestor.obtenerImagenEspacial();
+        JFrame1Umbral jm = new JFrame1Umbral(Seleccion.PasaAltas, AbrirImagen.toImage(imagenEspacial), this.umbral1);
+        jm.setTitle("Filtro pasa altas");    
+    }
+     
+     public void filtroPasaBajasMouseClicked(ActionEvent evt, Image imagen) {
+        /**/
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(imagen));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        
+        FiltroIdealPasaBajas fipb = new FiltroIdealPasaBajas(this.umbral1,new Dimension(256, 256));
+        fipb.crearFiltro();
+        NumeroComplejo[][] filtro = fipb.getFiltroEspacial();
+        
+        gestor.aplicarFiltro(filtro);
+        
+        BufferedImage imagenEspacial = gestor.obtenerImagenEspacial();
+        JFrame1Umbral jm = new JFrame1Umbral(Seleccion.PasaBajas, AbrirImagen.toImage(imagenEspacial), this.umbral1);
+        jm.setTitle("Filtro pasa bajas");    
+    }
+    
+    
+     public void filtroPasaAltasMouseClicked(ActionEvent evt, Image imagen) {
+         /**/
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(imagen));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        
+        FiltroIdealPasaAltas fipb = new FiltroIdealPasaAltas(this.umbral1,new Dimension(256, 256));
+        fipb.crearFiltro();
+        NumeroComplejo[][] filtro = fipb.getFiltroEspacial();
+        
+        gestor.aplicarFiltro(filtro);
+        
+        BufferedImage imagenEspacial = gestor.obtenerImagenEspacial();
+        JFrameMenu jm = new JFrameMenu(AbrirImagen.toImage(imagenEspacial));
+        jm.setTitle("Filtro pasa altas");    
+    }
+     
+     
     public void actualizarImagen() {
         System.out.println("Aqui");
         Image imagenNueva = ModificarImagen.umbralizacion(this.imagenOriginal, this.umbral1, this.umbral2);
@@ -286,6 +391,34 @@ public class JFrameImagen extends JFrame{
         Image imagenNueva = ModificarImagen.modificarIluminacion(this.imagenOriginal, this.umbral1);
         this.imagen = imagenNueva;
         etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizarImagenPasaBajas() {
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(this.imagenOriginal));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        
+        FiltroIdealPasaBajas fipb = new FiltroIdealPasaBajas(this.umbral1,new Dimension(256, 256));
+        fipb.crearFiltro();
+        NumeroComplejo[][] filtro = fipb.getFiltroEspacial();
+        
+        gestor.aplicarFiltro(filtro);
+        
+        BufferedImage imagenEspacial = gestor.obtenerImagenEspacial();
+        this.imagen =AbrirImagen.toImage(imagenEspacial);
+        etiqueta1.setIcon(new ImageIcon(this.imagen)); 
+    }
+    public void actualizarImagenPasaAltas() {
+        Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(this.imagenOriginal));
+        BufferedImage iFre = gestor.obtenerImagenFrecuencias(true);
+        
+        FiltroIdealPasaAltas fipb = new FiltroIdealPasaAltas(this.umbral1,new Dimension(256, 256));
+        fipb.crearFiltro();
+        NumeroComplejo[][] filtro = fipb.getFiltroEspacial();
+        
+        gestor.aplicarFiltro(filtro);
+        
+        BufferedImage imagenEspacial = gestor.obtenerImagenEspacial();
+        this.imagen =AbrirImagen.toImage(imagenEspacial);
+        etiqueta1.setIcon(new ImageIcon(this.imagen)); 
     }
     public void actualizarImagenExponencial() {
         Image imagenNueva = ModificarImagen.expansionExp(this.imagenOriginal, umbral);

@@ -39,31 +39,43 @@ public class JFrameMenu extends JFrameImagen{
         JMenuBar opciones = new JMenuBar(); //opciones
         JMenu menu1 = new JMenu(); //modificar imagen
         JMenu menu2 = new JMenu(); //contraste
-        JMenu menu3 = new JMenu(); //Preprocesamiento
+        JMenu menu3 = new JMenu(); //mostrar
         /**/
-        JMenu menu4 = new JMenu(); //histograma
+        JMenu menu4 = new JMenu(); //Mostrar su
         JMenu menu5 = new JMenu(); //guardar
+        JMenu menu6 = new JMenu(); //filtros
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
         JMenuItem item14 = new JMenuItem(); //negativo
         JMenuItem item15 = new JMenuItem(); //ecualizacion
+        JMenuItem item16 = new JMenuItem(); ///Preprocesamiento
         JMenuItem item21 = new JMenuItem(); //lineal
         JMenuItem item22 = new JMenuItem(); //logaritmico
         JMenuItem item23 = new JMenuItem(); //exponencial
+        JMenuItem item41 = new JMenuItem(); //histograma
+        JMenuItem item42 = new JMenuItem(); //espectro de frecuencia
+        JMenuItem item61Bajas = new JMenuItem(); //filtro pasa bajas
+        JMenuItem item62Altas = new JMenuItem(); //filtro pasa altas
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
         item14.setText("Negativo");
         item15.setText("Ecualizacion");
+        item16.setText("Preprocesamiento");
         item21.setText("Lineal");
         item22.setText("Logaritmico");
         item23.setText("Exponencial");
-        menu1.setText("Modificar imagen");
+        item41.setText("Histograma");
+        item42.setText("Espectro de frecuencias");
+        item61Bajas.setText("Filtros pasa bajas");
+        item62Altas.setText("Filtros pasa altas");
+        menu1.setText("Modificar");
         menu2.setText("Contraste");
         menu3.setText("Preprocesamiento");
         menu5.setText("Guardar");
-        menu4.setText("Histograma");
+        menu4.setText("Mostrar");
+        menu6.setText("Filtros");
         
         item11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,20 +113,42 @@ public class JFrameMenu extends JFrameImagen{
             }
         });
         item23.addActionListener(new java.awt.event.ActionListener() {
+            @Override
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 expExpMouseClicked(evt); //expansion Exponencial
             }
         });
-        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                proc1MouseClicked(evt);
+        item41.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                 histogramaMouseClicked(evt); //histograma
             }
         });
-        menu4.addMouseListener(new java.awt.event.MouseAdapter() {
+        item42.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                espectroFrecienciasMouseClicked(evt); //espectro de frecuencias
+            }
+        });
+        item61Bajas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtroPasaBajasMouseClicked(evt); //espectro de frecuencias
+            }
+        });
+        item62Altas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                filtroPasaAltasMouseClicked(evt); //espectro de frecuencias
+            }
+        });
+        menu3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                preprocesamiento1MouseClicked(evt);
+            }
+        });
+        /*menu4.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 histogramaMouseClicked(evt);
             }
-        });
+        });*/
         menu5.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 try {
@@ -133,13 +167,18 @@ public class JFrameMenu extends JFrameImagen{
         menu2.add(item21);
         menu2.add(item22);
         menu2.add(item23);
+        menu4.add(item41);
+        menu4.add(item42);
+        menu6.add(item62Altas);
+        menu6.add(item61Bajas);
         opciones.add(menu1);
         opciones.add(menu2);
         opciones.add(menu3);
         opciones.add(menu4);
         opciones.add(menu5);
+        opciones.add(menu6);
         opciones.setLocation(0, 0);
-        panelCentral.setSize(new Dimension(450,27));
+        panelCentral.setSize(new Dimension(430,27));
         panelCentral.add(opciones);
         add(panelCentral);
         add(etiqueta);

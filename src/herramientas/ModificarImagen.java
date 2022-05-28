@@ -208,16 +208,16 @@ public class ModificarImagen {
     }
     private static Color aCalido(Color c, int valor){
         //R++ B--
-        int aux1 = validar(c.getRed()+valor);
+        int aux1 = validarColores(c.getRed()+valor);
         int aux2 = c.getGreen();
-        int aux3 = validar(c.getBlue()-valor);
+        int aux3 = validarColores(c.getBlue()-valor);
         return new Color(aux1, aux2, aux3);
     }
     private static Color aFrio(Color c, int valor){
         //R++ B--
-        int aux1 = validar(c.getRed()-valor);
+        int aux1 = validarColores(c.getRed()-valor);
         int aux2 = c.getGreen();
-        int aux3 = validar(c.getBlue()+valor);
+        int aux3 = validarColores(c.getBlue()+valor);
         /*int aux1 = c.getRed()-valor, aux2 = c.getGreen(), aux3 = c.getBlue()+valor;
         aux1 = ((aux1>=255) ? 255 : aux1);
         aux3 = ((aux3>=255) ? 255 : aux3);
@@ -237,9 +237,9 @@ public class ModificarImagen {
                     int aux;
                     if(r2==r1) aux = 255/1;
                     else aux = 255/(r2-r1);
-                    int r = validar((c.getRed() - r1) * aux);
-                    int g = validar((c.getGreen()-r1)*aux);
-                    int b = validar((c.getBlue() - r1)*aux);
+                    int r = validarColores((c.getRed() - r1) * aux);
+                    int g = validarColores((c.getGreen()-r1)*aux);
+                    int b = validarColores((c.getBlue() - r1)*aux);
                     Color nuevo = new Color (r, g, b);
                     auxBuffed.setRGB(i, j, nuevo.getRGB());
             }
@@ -254,9 +254,9 @@ public class ModificarImagen {
             for(int j=0; j<alto; j++){
                     Color c = new Color(auxBuffed.getRGB(i, j));
                     int aux = (int) (Math.log(1+255));
-                    int r = validar((int) ((255*Math.log(1+c.getRed()))/aux));
-                    int g = validar((int) ((255*Math.log(1+c.getGreen()))/aux));
-                    int b = validar((int) ((255*Math.log(1+c.getBlue()))/aux));
+                    int r = validarColores((int) ((255*Math.log(1+c.getRed()))/aux));
+                    int g = validarColores((int) ((255*Math.log(1+c.getGreen()))/aux));
+                    int b = validarColores((int) ((255*Math.log(1+c.getBlue()))/aux));
                     Color nuevo = new Color (r, g, b);
                     auxBuffed.setRGB(i, j, nuevo.getRGB());
             }
@@ -274,10 +274,10 @@ public class ModificarImagen {
                     int aux = (int) (Math.log(1+255));
                     //int r = validar((int) (Math.pow(1+z,c.getRed())/z));
                     //int r = validar((int) (Math.pow(c.getRed(), 1 + z) / z));
-                    int r = validar((int) (Math.pow(c.getRed(), 1 + z) / z));
+                    int r = validarColores((int) (Math.pow(c.getRed(), 1 + z) / z));
                     
-                    int g = validar((int) (Math.pow(c.getGreen(), 1 + z) / z));
-                    int b = validar((int) (Math.pow(c.getBlue(), 1 + z) / z));
+                    int g = validarColores((int) (Math.pow(c.getGreen(), 1 + z) / z));
+                    int b = validarColores((int) (Math.pow(c.getBlue(), 1 + z) / z));
                     Color nuevo = new Color (r, g, b);System.out.println(r + "  " + g + "  " + b +"  ");
                     auxBuffed.setRGB(i, j, nuevo.getRGB());
             }
@@ -285,7 +285,7 @@ public class ModificarImagen {
         return AbrirImagen.toImage(auxBuffed); 
     }
     
-    private static int validar(int aux1){
+    public static int validarColores(int aux1){
         aux1 = Math.abs(aux1);
         aux1 = ((aux1>=255) ? 255 : aux1);
         aux1 = ((aux1<=0) ? 0 : aux1);
@@ -321,7 +321,7 @@ public class ModificarImagen {
                             }
                         }
                     }
-                    if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validar(sumaR/c), validar(sumaG/c), validar(sumaB/c)).getRGB());
+                    if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validarColores(sumaR/c), validarColores(sumaG/c), validarColores(sumaB/c)).getRGB());
                     //if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validar(sumaR/peso), validar(sumaG/peso), validar(sumaB/peso)).getRGB());
             }
         }
@@ -357,7 +357,7 @@ public class ModificarImagen {
                             }
                         }
                     }
-                    if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validar(sumaR/c), validar(sumaG/c), validar(sumaB/c)).getRGB());
+                    if(bandera==true)auxBuffedNuevo.setRGB(i, j, new Color(validarColores(sumaR/c), validarColores(sumaG/c), validarColores(sumaB/c)).getRGB());
             }
         }
         return auxBuffedNuevo;

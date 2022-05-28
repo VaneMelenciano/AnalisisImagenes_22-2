@@ -61,7 +61,7 @@ public class JFramePreproce extends JFrameImagen{
         
         menu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                proc3MouseClicked(evt, getImagen());
+                preprocesamiento3MouseClicked(evt, getImagen());
             }
         });
         menu3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -114,7 +114,7 @@ public class JFramePreproce extends JFrameImagen{
         
         menu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                proc2MouseClicked(evt);
+                preprocesamiento2MouseClicked(evt);
                 //proc2MouseClickedEcualizacion(evt);
             }
         });
@@ -205,7 +205,7 @@ public class JFramePreproce extends JFrameImagen{
         
         menu2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                proc3MouseClicked(evt, getImagen());
+                preprocesamiento3MouseClicked(evt, getImagen());
             }
         });
         
@@ -298,7 +298,7 @@ public class JFramePreproce extends JFrameImagen{
         
         menu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                proc3MouseClicked(evt, getImagen());
+                preprocesamiento3MouseClicked(evt, getImagen());
             }
         });
         menu4.addMouseListener(new java.awt.event.MouseAdapter() {
