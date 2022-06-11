@@ -29,8 +29,8 @@ public class main {
       frame2.setTitle("Espectro de frecuencia original");
      
         // creamos el filtro
-        //FiltroIdealPasaAltas fipb = new FiltroIdealPasaAltas(50,new Dimension(256, 256));
-        FiltroIdealPasaBajas fipb = new FiltroIdealPasaBajas(56,new Dimension(256, 256));
+        FiltroIdealPasaAltas fipb = new FiltroIdealPasaAltas(22,new Dimension(256, 256));
+        //FiltroIdealPasaBajas fipb = new FiltroIdealPasaBajas(74,new Dimension(256, 256));
         fipb.crearFiltro();
         NumeroComplejo[][] filtro = fipb.getFiltroEspacial(); 
         

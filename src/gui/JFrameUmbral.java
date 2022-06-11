@@ -5,7 +5,7 @@
  */
 package gui;
 
-import herramientas.ModificarImagen;
+import modificarImagen.ModificarImagen;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Menu;
@@ -36,10 +36,7 @@ public class JFrameUmbral extends JFrameImagen{
     public void crear(){
         etiqueta1 = new JLabel(new ImageIcon(this.imagen));
         
-        if(seleccion.equals(seleccion.Umbralizacion))
-            actualizarImagen();
-        else if(seleccion.equals(seleccion.Binarizacion))
-            actualizarImagenBinaria();
+        actualizarImagenPorSeleccion();
         
         JPanel panelCentral1 = new JPanel();
         JPanel panelCentral2 = new JPanel();
@@ -91,8 +88,8 @@ public class JFrameUmbral extends JFrameImagen{
               String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
               txtValor1.setText(b1);
                 umbral1 = valor;
-                if(seleccion.equals("Umbralizacion")) actualizarImagen();
-                else actualizarImagenBinaria();
+                
+                actualizarImagenPorSeleccion();
             }
           } );
         slider2.addChangeListener( new ChangeListener() {
@@ -102,8 +99,7 @@ public class JFrameUmbral extends JFrameImagen{
               String b1 = (valor<10 ? "00"+String.valueOf(valor) : valor<100 ? "0"+String.valueOf(valor) : String.valueOf(valor));
               txtValor2.setText(b1);
               umbral2 = valor;
-                if(seleccion.equals("Umbralizacion")) actualizarImagen();
-                else actualizarImagenBinaria();
+                actualizarImagenPorSeleccion();
             }
           } );
         
@@ -204,4 +200,16 @@ public class JFrameUmbral extends JFrameImagen{
         menuBar.add(menu2);
         setMenuBar(menuBar);*/
     }
+   public void actualizarImagenPorSeleccion() {
+        if(seleccion.equals(seleccion.Umbralizacion))
+            actualizarImagen();
+        else if(seleccion.equals(seleccion.Binarizacion))
+            actualizarImagenBinaria();
+        else if(seleccion.equals(seleccion.Traslacion))
+            actualizaImagenTraslacion();
+        else if(seleccion.equals(seleccion.Rotacion))
+            actualizaImagenRotacion();
+        else if(seleccion.equals(seleccion.Escalamiento))
+            actualizaImagenEscalamiento();
+   }
 }

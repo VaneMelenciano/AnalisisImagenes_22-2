@@ -3,9 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/FFT/main.java</file>
-            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/gui/JFrameMenu.java</file>
-            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/gui/JFrameImagen.java</file>
+            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/modificarImagen/ModificarImagen.java</file>
+            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/herramientas/Histograma.java</file>
+            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/gui/Seleccion.java</file>
+            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/modificarImagen/UmbralAutomatico.java</file>
+            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/modificarImagen/OperacionesMorfologicas.java</file>
+            <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/herramientas/Mascara.java</file>
             <file>file:/C:/Users/Melencino/Documents/Universidad/semestre_22-2/AnalisisImagenes/AnalisisImagenes_22-2/src/main/Main.java</file>
         </group>
     </open-files>

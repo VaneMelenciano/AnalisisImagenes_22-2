@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package herramientas;
+package modificarImagen;
 
 import gui.JFrameImagen;
+import herramientas.AbrirImagen;
+import herramientas.Histograma;
 import java.awt.Color;
 import java.awt.Image;
 import java.awt.image.BufferedImage;

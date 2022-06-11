@@ -12,8 +12,8 @@ import gui.Seleccion;
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
 import herramientas.Mascara;
-import herramientas.ModificarImagen;
-import herramientas.UmbralAutomatico;
+import modificarImagen.ModificarImagen;
+import modificarImagen.UmbralAutomatico;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -21,6 +21,7 @@ import static java.lang.Math.round;
 import java.util.Formatter;
 import static java.lang.String.valueOf;
 import java.util.Arrays;
+import modificarImagen.OperacionesMorfologicas;
 
 /**
  *
@@ -30,7 +31,16 @@ public class Main {
     public static void main(String[] args){
         //Imagen RGB a escala de grises
         Image imagenOriginal = AbrirImagen.openImage();
-        JFrameMenu original = new JFrameMenu(imagenOriginal);
+        JFrameMenu nuevo1 = new JFrameMenu(imagenOriginal);
+        /*OperacionesMorfologicas om = new OperacionesMorfologicas(imagenOriginal);
+        //JFrameMenu original = new JFrameMenu(om.editar(imagenOriginal));
+        
+        
+        //Image nueva = om.rotacion(90);
+        Image nueva = om.traslacion(-100, 40);
+        //Image nueva = om.escalamiento(-34);
+        JFrameMenu nuevo = new JFrameMenu(nueva);*/
+                
         //JFrameMenu original = new JFrameMenu(imagenOriginal);
         
         

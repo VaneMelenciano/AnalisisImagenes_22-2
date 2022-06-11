@@ -6,8 +6,8 @@ import Filtros.FiltroIdealPasaAltas;
 import Filtros.FiltroIdealPasaBajas;
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
-import herramientas.ModificarImagen;
-import herramientas.UmbralAutomatico;
+import modificarImagen.ModificarImagen;
+import modificarImagen.UmbralAutomatico;
 import java.awt.BorderLayout;
 import java.awt.Button;
 import java.awt.Dimension;
@@ -30,6 +30,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import modificarImagen.OperacionesMorfologicas;
 
 /**
  *
@@ -342,6 +343,7 @@ public class JFrameImagen extends JFrame{
         jm.setTitle("Filtro pasa altas");    
     }
      
+     
      public void filtroPasaBajasMouseClicked(ActionEvent evt, Image imagen) {
         /**/
         Gestor gestor = new Gestor(AbrirImagen.toBufferedImage(imagen));
@@ -375,6 +377,22 @@ public class JFrameImagen extends JFrame{
         jm.setTitle("Filtro pasa altas");    
     }
      
+    public void traslacionMouseClicked(ActionEvent evt){
+        OperacionesMorfologicas om = new OperacionesMorfologicas(this.imagenOriginal);
+        om.crearFondo();
+        this.imagenOriginal = AbrirImagen.toImage(om.getBufferedOriginal());
+        JFrameUmbral nueva = new JFrameUmbral(Seleccion.Traslacion, this.imagenOriginal, 0, 0);
+        nueva.setTitle("Traslación");
+    }
+    public void rotacionMouseClicked(ActionEvent evt){
+        JFrame1Umbral nueva = new JFrame1Umbral(Seleccion.Rotacion, this.imagenOriginal, 0);
+        nueva.setTitle("Rotacion");
+    }
+    public void escalamientoMouseClicked(ActionEvent evt){
+        JFrame1Umbral nueva = new JFrame1Umbral(Seleccion.Escalamiento, this.imagenOriginal, 0);
+        nueva.setTitle("Escalamiento");
+    }
+    
      
     public void actualizarImagen() {
         System.out.println("Aqui");
@@ -435,5 +453,19 @@ public class JFrameImagen extends JFrame{
         this.imagen = imagenNueva;
         etiqueta1.setIcon(new ImageIcon(this.imagen));
     }
-    
+    public void actualizaImagenTraslacion() {
+        OperacionesMorfologicas om = new OperacionesMorfologicas(imagenOriginal);
+        this.imagen = om.traslacion(this.umbral1, this.umbral2);
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizaImagenRotacion() {
+        OperacionesMorfologicas om = new OperacionesMorfologicas(imagenOriginal);
+        this.imagen = om.rotacion(this.umbral1);
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
+    public void actualizaImagenEscalamiento() {
+        OperacionesMorfologicas om = new OperacionesMorfologicas(imagenOriginal);
+        this.imagen = om.escalamiento(this.umbral1);
+        etiqueta1.setIcon(new ImageIcon(this.imagen));
+    }
 }

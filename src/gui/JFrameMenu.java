@@ -7,7 +7,7 @@ package gui;
 
 import herramientas.AbrirImagen;
 import herramientas.Histograma;
-import herramientas.ModificarImagen;
+import modificarImagen.ModificarImagen;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
@@ -44,6 +44,7 @@ public class JFrameMenu extends JFrameImagen{
         JMenu menu4 = new JMenu(); //Mostrar su
         JMenu menu5 = new JMenu(); //guardar
         JMenu menu6 = new JMenu(); //filtros
+        JMenu menu7 = new JMenu(); //operaciones morfologicas
         JMenuItem item11 = new JMenuItem(); //escalaGrises
         JMenuItem item12 = new JMenuItem(); //umbralizada
         JMenuItem item13 = new JMenuItem(); //binarizacion
@@ -57,6 +58,9 @@ public class JFrameMenu extends JFrameImagen{
         JMenuItem item42 = new JMenuItem(); //espectro de frecuencia
         JMenuItem item61Bajas = new JMenuItem(); //filtro pasa bajas
         JMenuItem item62Altas = new JMenuItem(); //filtro pasa altas
+        JMenuItem item71 = new JMenuItem(); //traslación
+        JMenuItem item72 = new JMenuItem(); //rotacion
+        JMenuItem item73 = new JMenuItem(); //escalamiento
         item11.setText("En escala de grises");
         item12.setText("Umbralizacion");
         item13.setText("Binarizacion");
@@ -70,12 +74,16 @@ public class JFrameMenu extends JFrameImagen{
         item42.setText("Espectro de frecuencias");
         item61Bajas.setText("Filtros pasa bajas");
         item62Altas.setText("Filtros pasa altas");
+        item71.setText("Traslación");
+        item72.setText("Rotación");
+        item73.setText("Escalamiento");
         menu1.setText("Modificar");
         menu2.setText("Contraste");
         menu3.setText("Preprocesamiento");
         menu5.setText("Guardar");
         menu4.setText("Mostrar");
         menu6.setText("Filtros");
+        menu7.setText("Operaciones Morfologicas");
         
         item11.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +147,25 @@ public class JFrameMenu extends JFrameImagen{
                 filtroPasaAltasMouseClicked(evt); //espectro de frecuencias
             }
         });
+        
+        item71.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                traslacionMouseClicked(evt); //traslación
+            }
+        });
+        
+        item72.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rotacionMouseClicked(evt); //rotación
+            }
+        });
+        
+        item73.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                escalamientoMouseClicked(evt); //escalamiento
+            }
+        });
+        
         menu3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 preprocesamiento1MouseClicked(evt);
@@ -171,14 +198,18 @@ public class JFrameMenu extends JFrameImagen{
         menu4.add(item42);
         menu6.add(item62Altas);
         menu6.add(item61Bajas);
+        menu7.add(item71);
+        menu7.add(item72);
+        menu7.add(item73);
         opciones.add(menu1);
         opciones.add(menu2);
         opciones.add(menu3);
         opciones.add(menu4);
         opciones.add(menu5);
         opciones.add(menu6);
+        opciones.add(menu7);
         opciones.setLocation(0, 0);
-        panelCentral.setSize(new Dimension(430,27));
+        panelCentral.setSize(new Dimension(580,27));
         panelCentral.add(opciones);
         add(panelCentral);
         add(etiqueta);

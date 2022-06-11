@@ -68,6 +68,7 @@ public class JFrame1Umbral extends JFrameImagen{
         menu4.setText("Guardar");
         menu3.setText("Mostrar");
         int sliderMax = ((seleccion == Seleccion.PasaAltas || seleccion == Seleccion.PasaBajas)? 130 : 255);
+        if(seleccion == Seleccion.Rotacion) sliderMax=360;
         JSlider slider1 = new JSlider(0,sliderMax,this.umbral1);
         slider1.setMajorTickSpacing((seleccion == Seleccion.PasaAltas || seleccion == Seleccion.PasaBajas)? 25 : 50);
         slider1.setMinorTickSpacing((seleccion == Seleccion.PasaAltas || seleccion == Seleccion.PasaBajas)? 5 : 10);
@@ -84,6 +85,8 @@ public class JFrame1Umbral extends JFrameImagen{
                 umbral1 = valor;
                     if(seleccion == Seleccion.PasaAltas) actualizarImagenPasaAltas();
                     else if(seleccion == Seleccion.PasaBajas) actualizarImagenPasaBajas();
+                    else if(seleccion == Seleccion.Rotacion) actualizaImagenRotacion();
+                    else if(seleccion == Seleccion.Escalamiento) actualizaImagenEscalamiento();
                     else actualizarImagenIluminacion();
             }
           } );

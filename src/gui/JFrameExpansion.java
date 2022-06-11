@@ -5,7 +5,7 @@
  */
 package gui;
 
-import herramientas.ModificarImagen;
+import modificarImagen.ModificarImagen;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Menu;

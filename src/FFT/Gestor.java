@@ -5,7 +5,7 @@
  */
 package FFT;
 import FFT.HerramientasColor.CanalColor;
-import herramientas.ModificarImagen;
+import modificarImagen.ModificarImagen;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
 import java.util.HashMap;
